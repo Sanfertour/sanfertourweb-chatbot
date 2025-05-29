@@ -54,8 +54,10 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
         /* Estilos específicos del selector de idioma */
-        .language-selector-container {
-    /* Eliminamos la línea 'position: relative;' para que 'absolute' de Tailwind funcione */
+      .language-selector-container {
+    position: absolute; /* Aseguramos que sea posicionado absolutamente */
+    top: 4px;            /* Fija a 4px del borde superior de su padre posicionado */
+    right: 4px;          /* Fija a 4px del borde derecho de su padre posicionado */
     z-index: 10;
 }
         .language-toggle-button { /* Estilo específico para el botón del globo */
