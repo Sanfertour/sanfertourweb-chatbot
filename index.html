@@ -55,9 +55,9 @@
         }
         /* Estilos específicos del selector de idioma */
         .language-selector-container {
-            position: relative; /* Cambiado de absoluto a relativo al contenedor padre */
-            z-index: 10;
-        }
+    /* Eliminamos la línea 'position: relative;' para que 'absolute' de Tailwind funcione */
+    z-index: 10;
+}
         .language-toggle-button { /* Estilo específico para el botón del globo */
             background-color: #A00000; /* Rojo más oscuro para el contraste */
             color: #ffffff;
