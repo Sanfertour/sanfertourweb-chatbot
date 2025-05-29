@@ -11,7 +11,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #DC2626; /* Rojo San Fermín para el fondo */
-            padding-top: 150px; /* Ajustado para el nuevo alto del encabezado fijo */
+            padding-top: 5rem; /* Espacio para el encabezado fijo */
         }
         /* Estilos personalizados para los colores corporativos de San Fermín/Pamplona */
         .sap-card {
@@ -217,14 +217,6 @@
             background-position: center;
             background-repeat: no-repeat;
         }
-        /* MODIFICACION PARA EL HEADER */
-        header {
-            min-height: 150px; /* Aumentar la altura mínima del encabezado */
-            display: flex; /* Asegura que flexbox funcione para alinear contenido */
-            align-items: center; /* Centra verticalmente el contenido */
-            justify-content: center; /* Centra horizontalmente el contenido */
-            padding: 0; /* Elimina el padding de Tailwind para controlarlo internamente */
-        }
 
         /* Estilos del Chatbot */
         .chatbot-container {
@@ -353,8 +345,9 @@
 </head>
 <body class="flex flex-col min-h-screen">
 
-    <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
-        <div class="flex items-center max-w-4xl w-full p-4"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="" class="h-12 w-auto mr-4">
+    <header class="fixed top-0 left-0 w-full p-4 shadow-md flex items-center justify-center z-20 header-background">
+        <div class="flex items-center max-w-4xl w-full">
+            <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="[Image of Sanfertour Logo]" class="h-12 w-auto mr-4">
             <h1 id="header-title" class="text-3xl font-bold text-red-600 tracking-tight">SanferTour</h1>
         </div>
     </header>
@@ -407,11 +400,9 @@
 
         <section id="code-entry-section" class="flex flex-col items-center justify-center flex-grow">
             <div class="sap-card text-center">
-                <p id="welcome-instruction" class="text-gray-700 text-lg mb-4 font-semibold"></p>
-                
-                <h1 id="form-title" class="text-4xl font-bold text-gray-800 mb-4"></h1>
-                
-                <p id="form-description" class="text-xl text-gray-600 mb-8"></p>
+                <p id="welcome-instruction" class="text-gray-700 text-lg mb-4 font-semibold">¡Bienvenido! Para empezar, introduce tu código.</p>
+                <h1 id="form-title" class="text-3xl font-bold text-gray-800 mb-6">Bienvenido al Fotoquest de Pamplona</h1>
+                <p id="form-description" class="text-gray-600 mb-8">Por favor, introduce tu código de acceso para continuar.</p>
                 <form id="code-form" class="space-y-6">
                     <div>
                         <label for="code-input" id="code-label" class="block text-left text-gray-700 text-sm font-medium mb-2">Código de Acceso</label>
@@ -528,9 +519,9 @@
             es: {
                 headerLogoAlt: "Sanfertour Logo",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "", // Este texto ya no se usa visualmente en este punto
-                formTitle: "Bienvenido a la primera experiencia GoTour de Pamplona", // Nuevo título principal
-                formDescription: "La ciudad en tus auriculares, a tu ritmo, a tu manera...", // Nuevo subtítulo
+                welcomeInstruction: "¡Bienvenido! Para empezar, introduce tu código.",
+                formTitle: "Bienvenido al Fotoquest de Pamplona",
+                formDescription: "Por favor, introduce tu código de acceso para continuar.",
                 codeLabel: "Código de Acceso",
                 codeInputPlaceholder: "Introduce tu código aquí",
                 submitButton: "Acceder",
@@ -553,9 +544,9 @@
             en: {
                 headerLogoAlt: "Sanfertour Logo",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "", // This text is no longer used visually at this point
-                formTitle: "Welcome to Pamplona's First GoTour Experience", // New main title
-                formDescription: "The city in your headphones, at your pace, your way...", // New subtitle
+                welcomeInstruction: "Welcome! To start, please enter your code.",
+                formTitle: "Welcome to Pamplona Photoquest!",
+                formDescription: "Please enter your access code to continue.",
                 codeLabel: "Access Code",
                 codeInputPlaceholder: "Enter your code here",
                 submitButton: "Access",
@@ -578,9 +569,9 @@
             fr: {
                 headerLogoAlt: "Logo Sanfertour",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "Bienvenue à la première expérience GoTour de Pampelune",
-                formDescription: "La ville dans vos écouteurs, à votre rythme, à votre manière...",
+                welcomeInstruction: "Bienvenue ! Pour commencer, veuillez entrer votre code.",
+                formTitle: "Bienvenue au Photoquest de Pampelune !",
+                formDescription: "Veuillez entrer votre code d'accès pour continuer.",
                 codeLabel: "Code d'accès",
                 codeInputPlaceholder: "Entrez votre code ici",
                 submitButton: "Accéder",
@@ -598,14 +589,14 @@
                 chatbotInputPlaceholder: "Écrivez votre message...",
                 chatbotInitialMessage: "Bonjour ! Je suis votre guide Sanfertour. Posez-moi des questions sur les sites, l'histoire, la gastronomie et la culture de Pampelune. ✨",
                 chatbotErrorMessage: "Désolé, une erreur s'est produite lors de la récupération de la réponse. Veuillez réessayer.",
-                copyright: "&copy; 2025 Fotoquest Pamplona. Tous droits réservés. Téléchargement, reproduction ou utilisation non autorisée interdits."
+                copyright: "&copy; 2025 Photoquest Pamplona. Tous droits réservés. Téléchargement, reproduction ou utilisation non autorisée interdits."
             },
             de: {
                 headerLogoAlt: "Sanfertour Logo",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "Willkommen zum ersten GoTour Erlebnis in Pamplona",
-                formDescription: "Die Stadt in Ihren Kopfhörern, in Ihrem Tempo, auf Ihre Weise...",
+                welcomeInstruction: "Willkommen! Um zu beginnen, geben Sie bitte Ihren Code ein.",
+                formTitle: "Willkommen beim Pamplona Photoquest!",
+                formDescription: "Bitte geben Sie Ihren Zugangscode ein, um fortzufahren.",
                 codeLabel: "Zugangscode",
                 codeInputPlaceholder: "Geben Sie hier Ihren Code ein",
                 submitButton: "Zugang",
@@ -623,14 +614,14 @@
                 chatbotInputPlaceholder: "Geben Sie Ihre Nachricht ein...",
                 chatbotInitialMessage: "Hallo! Ich bin Ihr Sanfertour-Guide. Fragen Sie mich nach den Sehenswürdigkeiten, der Geschichte, der Gastronomie und der Kultur Pamplonas. ✨",
                 chatbotErrorMessage: "Entschuldigung, beim Abrufen der Antwort ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
-                copyright: "&copy; 2025 Fotoquest Pamplona. Alle Rechte vorbehalten. Herunterladen, Reproduktion oder unbefugte Nutzung ist untersagt."
+                copyright: "&copy; 2025 Photoquest Pamplona. Alle Rechte vorbehalten. Herunterladen, Reproduktion oder unbefugte Nutzung ist untersagt."
             },
             it: {
                 headerLogoAlt: "Logo Sanfertour",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "Benvenuti alla prima esperienza GoTour di Pamplona",
-                formDescription: "La città nelle tue cuffie, al tuo ritmo, a modo tuo...",
+                welcomeInstruction: "Benvenuti! Per iniziare, inserisci il tuo codice.",
+                formTitle: "Benvenuti al Photoquest di Pamplona!",
+                formDescription: "Si prega di inserire il codice di accesso per continuare.",
                 codeLabel: "Codice di Accesso",
                 codeInputPlaceholder: "Inserisci il tuo codice qui",
                 submitButton: "Accedi",
@@ -648,14 +639,14 @@
                 chatbotInputPlaceholder: "Scrivi il tuo messaggio...",
                 chatbotInitialMessage: "Ciao! Sono la tua guida Sanfertour. Chiedimi informazioni sui luoghi d'interesse, la storia, la gastronomia e la cultura di Pamplona. ✨",
                 chatbotErrorMessage: "Siamo spiacenti, si è verificato un errore durante il recupero della risposta. Riprova.",
-                copyright: "&copy; 2025 Fotoquest Pamplona. Tutti i diritti riservati. Download, riproduzione o utilizzo non autorizzato sono proibiti."
+                copyright: "&copy; 2025 Photoquest Pamplona. Tutti i diritti riservati. Download, riproduzione o utilizzo non autorizzato sono proibiti."
             },
             zh: {
                 headerLogoAlt: "Sanfertour 标志",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "欢迎来到潘普洛纳的首次GoTour体验",
-                formDescription: "城市在你的耳机里，按照你的节奏，你的方式...",
+                welcomeInstruction: "欢迎！开始前，请输入您的代码。",
+                formTitle: "欢迎来到潘普洛纳寻宝游戏！",
+                formDescription: "请输入您的访问代码以继续。",
                 codeLabel: "访问代码",
                 codeInputPlaceholder: "在此输入您的代码",
                 submitButton: "访问",
@@ -678,9 +669,9 @@
             eu: {
                 headerLogoAlt: "Sanfertour Logotipoa",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "Ongi etorri Iruñeko lehen GoTour esperientziara",
-                formDescription: "Hiria zure aurikularretan, zure erritmoan, zure moduan...",
+                welcomeInstruction: "Ongi etorri! Hasteko, sartu zure kodea.",
+                formTitle: "Ongi etorri Iruñeko Fotoquest-era!",
+                formDescription: "Mesedez, sartu zure sarbide-kodea jarraitzeko.",
                 codeLabel: "Sarbide Kodea",
                 codeInputPlaceholder: "Sartu zure kodea hemen",
                 submitButton: "Sartu",
@@ -703,9 +694,9 @@
             ja: {
                 headerLogoAlt: "Sanfertour ロゴ",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "パンプローナ初のGoTour体験へようこそ",
-                formDescription: "イヤホンで街を、あなたのペースで、あなたの方法で...",
+                welcomeInstruction: "ようこそ！開始するには、コードを入力してください。",
+                formTitle: "パンプローナ・フォトクエストへようこそ！",
+                formDescription: "続行するにはアクセスコードを入力してください。",
                 codeLabel: "アクセスコード",
                 codeInputPlaceholder: "ここにコードを入力してください",
                 submitButton: "アクセス",
@@ -724,9 +715,9 @@
             pt: {
                 headerLogoAlt: "Logo Sanfertour",
                 headerTitle: "Sanfertour",
-                welcomeInstruction: "",
-                formTitle: "Bem-vindo à primeira experiência GoTour de Pamplona",
-                formDescription: "A cidade nos seus fones de ouvido, ao seu ritmo, do seu jeito...",
+                welcomeInstruction: "Bem-vindo! Para começar, por favor, insira seu código.",
+                formTitle: "Bem-vindo ao Fotoquest de Pamplona!",
+                formDescription: "Por favor, insira seu código de acesso para continuar.",
                 codeLabel: "Código de Acesso",
                 codeInputPlaceholder: "Insira seu código aqui",
                 submitButton: "Acessar",
@@ -906,9 +897,9 @@
 
             headerLogo.alt = t.headerLogoAlt;
             headerTitle.textContent = t.headerTitle;
-            welcomeInstruction.textContent = t.welcomeInstruction; // welcomeInstruction ahora estará vacío
-            formTitle.textContent = t.formTitle; // Nuevo título principal
-            formDescription.textContent = t.formDescription; // Nuevo subtítulo
+            welcomeInstruction.textContent = t.welcomeInstruction;
+            formTitle.textContent = t.formTitle;
+            formDescription.textContent = t.formDescription;
             codeLabel.textContent = t.codeLabel;
             codeInput.placeholder = t.codeInputPlaceholder;
             submitButton.textContent = t.submitButton;
