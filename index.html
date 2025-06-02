@@ -253,6 +253,10 @@
             background-color: #dc2626;
             transform: translateY(-2px);
         }
+        .chatbot-toggle-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
         .chatbot-panel {
             background-color: #ffffff;
             border-radius: 12px;
@@ -518,6 +522,50 @@
             </div>
         </section>
 
+        <section id="fr-map-section" class="hidden flex flex-col items-center justify-center w-full p-4">
+            <div class="sap-card w-full max-w-4xl text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-fr"></h2>
+                <p class="text-gray-700 mb-4" id="map-description-fr"></p>
+
+                <div class="legend-selector-container absolute">
+                    <button id="legend-toggle-fr" class="legend-toggle-button">
+                        <i class="fas fa-info text-white"></i> </button>
+                    <div id="legend-dropdown-fr" class="legend-dropdown">
+                        <div class="legend-item">
+                            <i class="fas fa-map-pin text-blue-600"></i>
+                            <span id="legend-gastro-fr"></span>
+                        </div>
+                        <div class="legend-item">
+                            <i class="fas fa-location-dot text-red-600"></i> <span id="legend-audioguia-fr"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="fullscreen-fr-map" class="fullscreen-button mb-4">
+                    <i class="fas fa-expand mr-2"></i> </button>
+                <div class="map-container">
+                    <iframe id="fr-map-iframe" class="map-iframe" src="https://dashing-crisp-97b881.netlify.app/" allowfullscreen allow="geolocation"></iframe>
+                </div>
+            </div>
+            <div class="chatbot-container">
+                <button id="chatbot-toggle-fr" class="chatbot-toggle-button">
+                    <i class="fas fa-comments"></i>
+                </button>
+                <div id="chatbot-panel-fr" class="chatbot-panel">
+                    <div class="chatbot-header">
+                        <span id="chatbot-header-text-fr"></span>
+                        <button id="chatbot-close-fr" class="text-white text-xl leading-none">&times;</button>
+                    </div>
+                    <div id="chatbot-messages-fr" class="chatbot-messages flex flex-col">
+                        <div class="chatbot-message bot"></div> </div>
+                    <div class="chatbot-input-area">
+                        <input type="text" id="chatbot-input-fr" class="chatbot-input" placeholder="">
+                        <button id="chatbot-send-fr" class="chatbot-send-button">Enviar</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <footer class="footer">
@@ -590,8 +638,8 @@
                 codeExpired: "Le code a expiré. Veuillez contacter l'administrateur.",
                 usageLimitExceeded: "Ce code a dépassé sa limite d'utilisation. Veuillez contacter l'administrateur.",
                 loadingText: "Validation du code...",
-                mapTitle: "Bienvenue à Sanfertour",
-                mapDescription: "L'expérience Gotour unique : à votre manière et à votre rythme.",
+                mapTitle: "Bienvenue à Sanfertour", // Texto actualizado para francés
+                mapDescription: "L'expérience Gotour unique : à votre manière et à votre rythme.", // Texto actualizado para francés
                 legendToggle: "Légende de la carte",
                 legendGastro: "Guide gastronomique et vie nocturne",
                 legendAudioguia: "Audioguide",
@@ -691,23 +739,23 @@
                 usageLimitExceeded: "Kode honek erabilera muga gainditu du. Mesedez, jarri harremanetan administratzailearekin.",
                 loadingText: "Kodea balioztatzen...",
                 mapTitle: "Ongi etorri Sanfertour-era",
-                mapDescription: "Gotour esperientzia bakarra: zure erara eta zure erritmoan.",
-                legendToggle: "Maparen Kondaira",
-                legendGastro: "Gastro-gida eta Gaueko Aisia",
+                mapDescription: "Gotour esperientzia bakarra: zure moduan, zure erritmoan.",
+                legendToggle: "Maparen legenda",
+                legendGastro: "Gastrogida eta Gaueko Aisia",
                 legendAudioguia: "Audiogida",
                 fullscreenButton: "Pantaila osoa",
-                chatbotHeaderText: "Laguntza-txatbota",
+                chatbotHeaderText: "Laguntza-chatbot-a",
                 chatbotInputPlaceholder: "Idatzi zure mezua...",
-                chatbotInitialMessage: "Kaixo! Sanfertour-eko zure gida naiz. Galdetu Iruñeko leku interesgarriei, historiari, gastronomiari eta kulturari buruz. ✨",
-                chatbotErrorMessage: "Barkatu, erantzuna lortzean errorea gertatu da. Saiatu berriro.",
+                chatbotInitialMessage: "Kaixo! Zure Sanfertour-eko gida naiz. Galdetu Iruñeko interesgune, historia, gastronomia eta kulturari buruz. ✨",
+                chatbotErrorMessage: "Barkatu, akats bat gertatu da erantzuna lortzean. Mesedez, saiatu berriro.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Eskubide guztiak erreserbatuta. Debekatuta dago deskargatzea, erreproduzitzea edo baimenik gabe erabiltzea."
             },
             ja: {
-                headerLogoAlt: "Sanfertour ロゴ",
-                headerTitle: "Sanfertour",
+                headerLogoAlt: "サンフェルツアーロゴ",
+                headerTitle: "サンフェルツアー",
                 welcomeInstruction: "",
                 formTitle: "パンプローナ初のGoTour体験へようこそ",
-                formDescription: "イヤホンで街を、あなたのペースで、あなたの方法で...",
+                formDescription: "あなたのヘッドフォンで街を、あなたのペースで、あなたの方法で...",
                 codeLabel: "アクセスコード",
                 codeInputPlaceholder: "ここにコードを入力してください",
                 submitButton: "アクセス",
@@ -715,26 +763,30 @@
                 codeExpired: "コードの有効期限が切れました。管理者にお問い合わせください。",
                 usageLimitExceeded: "このコードは使用制限を超えました。管理者にお問い合わせください。",
                 loadingText: "コードを検証中...",
-                mapTitle: "Sanfertourへようこそ",
-                mapDescription: "独自のGotour体験：あなたのやり方で、あなたのペースで。",
-                legendToggle: "地図の凡例",
-                legendGastro: "グルメ＆ナイトライフガイド",
+                mapTitle: "サンフェルツアーへようこそ",
+                mapDescription: "ユニークなGoTour体験：あなたの方法で、あなたのペースで。",
+                legendToggle: "地図凡例",
+                legendGastro: "美食＆ナイトライフガイド",
                 legendAudioguia: "オーディオガイド",
-                fullscreenButton: "全画面表示",
-                copyright: "&copy; 2025 Pamplona Fotoquest. 全著作権所有。ダウンロード、複製、または無断使用は禁止されています。"
+                fullscreenButton: "フルスクリーン",
+                chatbotHeaderText: "ヘルプチャットボット",
+                chatbotInputPlaceholder: "メッセージを入力してください...",
+                chatbotInitialMessage: "こんにちは！サンフェルツアーガイドです。パンプローナの見どころ、歴史、美食、文化についてお尋ねください。✨",
+                chatbotErrorMessage: "申し訳ありません、応答の取得中にエラーが発生しました。もう一度お試しください。",
+                copyright: "&copy; 2025 Fotoquest Pamplona. 全著作権所有。ダウンロード、複製、無断使用は禁止されています。"
             },
             pt: {
-                headerLogoAlt: "Logo Sanfertour",
+                headerLogoAlt: "Logotipo Sanfertour",
                 headerTitle: "Sanfertour",
                 welcomeInstruction: "",
                 formTitle: "Bem-vindo à primeira experiência GoTour de Pamplona",
-                formDescription: "A cidade nos seus fones de ouvido, ao seu ritmo, do seu jeito...",
+                formDescription: "A cidade nos seus fones, no seu ritmo, do seu jeito...",
                 codeLabel: "Código de Acesso",
-                codeInputPlaceholder: "Insira seu código aqui",
+                codeInputPlaceholder: "Digite seu código aqui",
                 submitButton: "Acessar",
                 invalidCode: "Código inválido. Por favor, tente novamente.",
                 codeExpired: "O código expirou. Por favor, entre em contato com o administrador.",
-                usageLimitExceeded: "Este código excedeu o limite de usos. Por favor, entre em contato com o administrador.",
+                usageLimitExceeded: "Este código excedeu seu limite de usos. Por favor, entre em contato com o administrador.",
                 loadingText: "Validando código...",
                 mapTitle: "Bem-vindo ao Sanfertour",
                 mapDescription: "A experiência Gotour única: do seu jeito, no seu ritmo.",
@@ -742,61 +794,55 @@
                 legendGastro: "Guia de Gastronomia e Vida Noturna",
                 legendAudioguia: "Audioguia",
                 fullscreenButton: "Tela Cheia",
-                copyright: "&copy; 2025 Fotoquest Pamplona. Todos los derechos reservados. Proibido download, reprodução o uso no autorizado."
+                chatbotHeaderText: "Chatbot de Ajuda",
+                chatbotInputPlaceholder: "Escreva sua mensagem...",
+                chatbotInitialMessage: "Olá! Sou seu guia Sanfertour. Pergunte-me sobre os pontos turísticos, história, gastronomia e cultura de Pamplona. ✨",
+                chatbotErrorMessage: "Desculpe, houve um erro ao obter a resposta. Por favor, tente novamente.",
+                copyright: "&copy; 2025 Fotoquest Pamplona. Todos os direitos reservados. Proibido download, reprodução ou uso não autorizado."
             }
         };
 
-        // Usando flagcdn.com para banderas más realistas
-        const flags = {
-            es: "https://flagcdn.com/es.svg",
-            en: "https://flagcdn.com/gb.svg", // Bandera del Reino Unido para inglés
-            fr: "https://flagcdn.com/fr.sVg",
-            de: "https://flagcdn.com/de.svg",
-            it: "https://flagcdn.com/it.svg",
-            zh: "https://flagcdn.com/cn.svg", // Bandera de China para chino
-            eu: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Flag_of_the_Basque_Country_by_Sabino_Arana.svg/220px-Flag_of_the_Basque_Country_by_Sabino_Arana.svg.png", // Bandera vasca
-            ja: "https://flagcdn.com/jp.svg",
-            pt: "https://flagcdn.com/pt.svg"
-        };
+        let currentLang = 'es'; // Idioma por defecto
 
-        let currentLang = 'es'; // Idioma por defecto, se sobrescribirá por la detección del navegador
+        // --- Referencias a elementos DOM ---
+        const languageToggleButton = document.getElementById('language-toggle');
+        const languageDropdown = document.getElementById('language-dropdown');
+        const languageItems = document.querySelectorAll('.language-item');
 
-        // Historial de chat global para cada idioma
-        // La instrucción del sistema se envía en la Netlify Function para mayor seguridad y control.
-        const chatHistoryEs = [{ role: "model", parts: [{ text: translations['es'].chatbotInitialMessage }] }];
-        const chatHistoryEn = [{ role: "model", parts: [{ text: translations['en'].chatbotInitialMessage }] }];
-        // Añadir otros idiomas si es necesario, por ejemplo: chatHistoryFr = [...]
-
-        // Obtener elementos
         const headerLogo = document.getElementById('header-logo');
         const headerTitle = document.getElementById('header-title');
-        const languageToggle = document.getElementById('language-toggle');
-        const languageDropdown = document.getElementById('language-dropdown');
         const welcomeInstruction = document.getElementById('welcome-instruction');
-
         const formTitle = document.getElementById('form-title');
         const formDescription = document.getElementById('form-description');
         const codeLabel = document.getElementById('code-label');
         const codeInput = document.getElementById('code-input');
         const submitButton = document.getElementById('submit-button');
         const messageBox = document.getElementById('message-box');
+        const loadingIndicator = document.getElementById('loading-indicator');
         const loadingText = document.getElementById('loading-text');
-
-        const esMapSection = document.getElementById('es-map-section');
-        const enMapSection = document.getElementById('en-map-section');
-        const esMapIframe = document.getElementById('es-map-iframe');
-        const enMapIframe = document.getElementById('en-map-iframe');
-        const fullscreenEsMapButton = document.getElementById('fullscreen-es-map');
-        const fullscreenEnMapButton = document.getElementById('fullscreen-en-map');
         const copyrightText = document.getElementById('copyright-text');
 
-        // Nuevos elementos de leyenda
+        const codeEntrySection = document.getElementById('code-entry-section');
+        const esMapSection = document.getElementById('es-map-section');
+        const enMapSection = document.getElementById('en-map-section');
+        const frMapSection = document.getElementById('fr-map-section'); // Nuevo para francés
+        const esMapIframe = document.getElementById('es-map-iframe');
+        const enMapIframe = document.getElementById('en-map-iframe');
+        const frMapIframe = document.getElementById('fr-map-iframe'); // Nuevo para francés
+        const fullscreenEsMapButton = document.getElementById('fullscreen-es-map');
+        const fullscreenEnMapButton = document.getElementById('fullscreen-en-map');
+        const fullscreenFrMapButton = document.getElementById('fullscreen-fr-map'); // Nuevo para francés
+
+        // Elementos de leyenda
         const legendToggleEs = document.getElementById('legend-toggle-es');
         const legendDropdownEs = document.getElementById('legend-dropdown-es');
         const legendToggleEn = document.getElementById('legend-toggle-en');
         const legendDropdownEn = document.getElementById('legend-dropdown-en');
+        const legendToggleFr = document.getElementById('legend-toggle-fr'); // Nuevo para francés
+        const legendDropdownFr = document.getElementById('legend-dropdown-fr'); // Nuevo para francés
 
-        // Elementos del Chatbot
+
+        // Elementos del Chatbot en español
         const chatbotToggleEs = document.getElementById('chatbot-toggle-es');
         const chatbotPanelEs = document.getElementById('chatbot-panel-es');
         const chatbotCloseEs = document.getElementById('chatbot-close-es');
@@ -804,7 +850,10 @@
         const chatbotMessagesEs = document.getElementById('chatbot-messages-es');
         const chatbotInputEs = document.getElementById('chatbot-input-es');
         const chatbotSendEs = document.getElementById('chatbot-send-es');
+        // Historial de chat global para español
+        const chatHistoryEs = [{ role: "model", parts: [{ text: translations['es'].chatbotInitialMessage }] }];
 
+        // Elementos del Chatbot en inglés
         const chatbotToggleEn = document.getElementById('chatbot-toggle-en');
         const chatbotPanelEn = document.getElementById('chatbot-panel-en');
         const chatbotCloseEn = document.getElementById('chatbot-close-en');
@@ -812,123 +861,55 @@
         const chatbotMessagesEn = document.getElementById('chatbot-messages-en');
         const chatbotInputEn = document.getElementById('chatbot-input-en');
         const chatbotSendEn = document.getElementById('chatbot-send-en');
+        // Historial de chat global para inglés
+        const chatHistoryEn = [{ role: "model", parts: [{ text: translations['en'].chatbotInitialMessage }] }];
 
-        // Función para añadir un mensaje a la pantalla de chat
-        function addMessageToChat(messagesDiv, text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('chatbot-message', sender);
-            messageDiv.textContent = text;
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Desplazar hasta el final
-        }
+        // Elementos del Chatbot en francés (NUEVO)
+        const chatbotToggleFr = document.getElementById('chatbot-toggle-fr');
+        const chatbotPanelFr = document.getElementById('chatbot-panel-fr');
+        const chatbotCloseFr = document.getElementById('chatbot-close-fr');
+        const chatbotHeaderTextFr = document.getElementById('chatbot-header-text-fr');
+        const chatbotMessagesFr = document.getElementById('chatbot-messages-fr');
+        const chatbotInputFr = document.getElementById('chatbot-input-fr');
+        const chatbotSendFr = document.getElementById('chatbot-send-fr');
+        // Historial de chat global para francés (NUEVO)
+        const chatHistoryFr = [{ role: "model", parts: [{ text: translations['fr'].chatbotInitialMessage }] }];
 
-        // Función para mostrar/ocultar puntos de carga
-        function showLoadingDots(messagesDiv, show) {
-            let loadingDiv = messagesDiv.querySelector('.loading-dots-container');
-            if (show) {
-                if (!loadingDiv) {
-                    loadingDiv = document.createElement('div');
-                    loadingDiv.classList.add('chatbot-message', 'bot', 'loading-dots-container');
-                    loadingDiv.innerHTML = `
-                        <div class="chatbot-loading-dots"></div>
-                        <div class="chatbot-loading-dots"></div>
-                        <div class="chatbot-loading-dots"></div>
-                    `;
-                    messagesDiv.appendChild(loadingDiv);
-                }
-                messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            } else {
-                if (loadingDiv) {
-                    messagesDiv.removeChild(loadingDiv);
-                }
-            }
-        }
 
-        // --- Lógica de envío de mensajes del Chatbot (Integrado con la API de Gemini) ---
-        async function sendMessage(inputField, messagesDiv, chatHistory, lang) {
-            const messageText = inputField.value.trim();
-            if (messageText === '') return;
-
-            addMessageToChat(messagesDiv, messageText, 'user');
-            chatHistory.push({ role: "user", parts: [{ text: messageText }] });
-            inputField.value = ''; // Limpiar entrada
-            inputField.disabled = true; // Deshabilitar entrada mientras se espera la respuesta
-            
-            // Determinar qué botón de envío deshabilitar según el chatbot activo
-            let activeSendButton;
-            if (messagesDiv.id === 'chatbot-messages-es') {
-                activeSendButton = chatbotSendEs;
-            } else if (messagesDiv.id === 'chatbot-messages-en') {
-                activeSendButton = chatbotSendEn;
-            }
-            if (activeSendButton) {
-                activeSendButton.disabled = true; // Deshabilitar botón de envío
-            }
-            
-            showLoadingDots(messagesDiv, true); // Mostrar puntos de carga
-
-            try {
-                // Llamar a la Netlify Function en lugar de directamente a la API de Gemini
-                // La URL es relativa a la raíz de tu sitio Netlify
-                const response = await fetch('/.netlify/functions/chatbot', { 
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: chatHistory }) // Enviar el historial de chat
-                });
-
-                const result = await response.json();
-
-                showLoadingDots(messagesDiv, false); // Ocultar puntos de carga
-
-                if (response.ok && result.text) { // Si la respuesta de la función es OK y contiene texto
-                    const botResponse = result.text;
-                    addMessageToChat(messagesDiv, botResponse, 'bot');
-                    chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
-                } else {
-                    addMessageToChat(messagesDiv, translations[lang].chatbotErrorMessage, 'bot');
-                    console.error('Error de la Netlify Function o respuesta inesperada:', result);
-                }
-            } catch (error) {
-                showLoadingDots(messagesDiv, false); // Ocultar puntos de carga en caso de error
-                addMessageToChat(messagesDiv, translations[lang].chatbotErrorMessage, 'bot');
-                console.error('Error al llamar a la Netlify Function:', error);
-            } finally {
-                inputField.disabled = false; // Volver a habilitar la entrada
-                if (activeSendButton) {
-                    activeSendButton.disabled = false; // Volver a habilitar el botón de envío
-                }
-                inputField.focus(); // Enfocar la entrada para el siguiente mensaje
-            }
-        }
-
-        // Actualizar contenido según el idioma seleccionado
+        // --- Funciones ---
         function updateContent(lang) {
-            currentLang = lang;
             const t = translations[lang];
+            if (!t) return;
 
             headerLogo.alt = t.headerLogoAlt;
             headerTitle.textContent = t.headerTitle;
-            welcomeInstruction.textContent = t.welcomeInstruction; // welcomeInstruction ahora estará vacío
-            formTitle.textContent = t.formTitle; // Nuevo título principal
-            formDescription.textContent = t.formDescription; // Nuevo subtítulo
+            welcomeInstruction.textContent = t.welcomeInstruction;
+            formTitle.textContent = t.formTitle;
+            formDescription.textContent = t.formDescription;
             codeLabel.textContent = t.codeLabel;
             codeInput.placeholder = t.codeInputPlaceholder;
             submitButton.textContent = t.submitButton;
             loadingText.textContent = t.loadingText;
-            copyrightText.innerHTML = t.copyright; // Usar innerHTML para copyright para permitir entidades HTML
+            copyrightText.innerHTML = t.copyright;
 
             // Actualizar contenido de la sección del mapa
-            // Estos elementos ahora tienen IDs específicos para facilitar la selección
             const esMapTitle = document.getElementById('map-title-es');
             const esMapDescription = document.getElementById('map-description-es');
             const enMapTitle = document.getElementById('map-title-en');
             const enMapDescription = document.getElementById('map-description-en');
+            // Nuevos elementos en francés
+            const frMapTitle = document.getElementById('map-title-fr');
+            const frMapDescription = document.getElementById('map-description-fr');
+
 
             if (esMapTitle) esMapTitle.textContent = translations['es'].mapTitle;
             if (esMapDescription) esMapDescription.textContent = translations['es'].mapDescription;
             if (enMapTitle) enMapTitle.textContent = translations['en'].mapTitle;
             if (enMapDescription) enMapDescription.textContent = translations['en'].mapDescription;
-            
+            // Actualizar los elementos en francés
+            if (frMapTitle) frMapTitle.textContent = translations['fr'].mapTitle;
+            if (frMapDescription) frMapDescription.textContent = translations['fr'].mapDescription;
+
             // Actualizar elementos de leyenda según el idioma actual
             if (document.getElementById('legend-gastro-es')) {
                 document.getElementById('legend-gastro-es').textContent = translations['es'].legendGastro;
@@ -938,9 +919,16 @@
                 document.getElementById('legend-gastro-en').textContent = translations['en'].legendGastro;
                 document.getElementById('legend-audioguia-en').textContent = translations['en'].legendAudioguia;
             }
+            // Nuevos elementos de leyenda en francés
+            if (document.getElementById('legend-gastro-fr')) {
+                document.getElementById('legend-gastro-fr').textContent = translations['fr'].legendGastro;
+                document.getElementById('legend-audioguia-fr').textContent = translations['fr'].legendAudioguia;
+            }
             
-            fullscreenEsMapButton.textContent = t.fullscreenButton;
-            fullscreenEnMapButton.textContent = t.fullscreenButton;
+            // Actualizar el texto del botón de pantalla completa para todos los idiomas
+            if (fullscreenEsMapButton) fullscreenEsMapButton.innerHTML = `<i class="fas fa-expand mr-2"></i> ${t.fullscreenButton}`;
+            if (fullscreenEnMapButton) fullscreenEnMapButton.innerHTML = `<i class="fas fa-expand mr-2"></i> ${t.fullscreenButton}`;
+            if (fullscreenFrMapButton) fullscreenFrMapButton.innerHTML = `<i class="fas fa-expand mr-2"></i> ${t.fullscreenButton}`;
 
             // Actualizar textos del chatbot y mensaje inicial
             if (chatbotHeaderTextEs) chatbotHeaderTextEs.textContent = t.chatbotHeaderText;
@@ -960,35 +948,139 @@
                     chatbotMessagesEn.children[0].textContent = t.chatbotInitialMessage;
                 }
             }
-        }
 
-        // --- Detección del idioma del navegador al cargar ---
-        function getBrowserLanguage() {
-            const browserLang = navigator.language || navigator.userLanguage; // Obtener el idioma del navegador
-            const primaryLang = browserLang.split('-')[0]; // Obtener el código de idioma principal (por ejemplo, 'es' de 'es-ES')
-            if (translations[primaryLang]) {
-                return primaryLang;
+            // Actualizar textos del chatbot en francés (NUEVO)
+            if (chatbotHeaderTextFr) chatbotHeaderTextFr.textContent = t.chatbotHeaderText;
+            if (chatbotInputFr) chatbotInputFr.placeholder = t.chatbotInputPlaceholder;
+            if (chatbotMessagesFr && chatbotMessagesFr.children.length > 0) {
+                if (chatHistoryFr.length === 1 && chatHistoryFr[0].role === 'model') {
+                    chatbotMessagesFr.children[0].textContent = t.chatbotInitialMessage;
+                }
             }
-            return 'es'; // Por defecto, español si el idioma detectado no es compatible
         }
 
-        // Inicializar con el idioma detectado
-        currentLang = getBrowserLanguage();
-        updateContent(currentLang);
+        // Función para agregar mensajes al chat
+        function addMessageToChat(messageContainer, message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chatbot-message', sender);
+            messageElement.textContent = message;
+            messageContainer.appendChild(messageElement);
+            messageContainer.scrollTop = messageContainer.scrollHeight; // Scroll al final
+        }
+
+        // Función para agregar puntos de carga
+        function addLoadingDots(messageContainer) {
+            const loadingElement = document.createElement('div');
+            loadingElement.classList.add('chatbot-message', 'bot');
+            loadingElement.innerHTML = `<div class="chatbot-loading-dots"></div><div class="chatbot-loading-dots"></div><div class="chatbot-loading-dots"></div>`;
+            messageContainer.appendChild(loadingElement);
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+            return loadingElement;
+        }
+
+        // Función para remover puntos de carga
+        function removeLoadingDots(loadingElement) {
+            if (loadingElement && loadingElement.parentNode) {
+                loadingElement.parentNode.removeChild(loadingElement);
+            }
+        }
+
+        // Función para enviar mensaje al Gemini API
+        async function sendMessageToGemini(message, chatHistory, messageContainer, lang) {
+            const currentChatHistory = chatHistory.map(entry => ({
+                role: entry.role,
+                parts: [{ text: entry.parts[0].text }]
+            }));
+
+            currentChatHistory.push({ role: "user", parts: [{ text: message }] });
+
+            const loadingDots = addLoadingDots(messageContainer);
+
+            try {
+                const response = await fetch('https://bot.tour-web.net/chat', { // Reemplaza con la URL de tu API
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        history: currentChatHistory,
+                        message: message,
+                        language: lang // Pasa el idioma actual al backend
+                    }),
+                });
+
+                const data = await response.json();
+                removeLoadingDots(loadingDots);
+                addMessageToChat(messageContainer, data.response, 'bot');
+                chatHistory.push({ role: "model", parts: [{ text: data.response }] });
+
+            } catch (error) {
+                console.error('Error al comunicarse con la API de Gemini:', error);
+                removeLoadingDots(loadingDots);
+                addMessageToChat(messageContainer, translations[lang].chatbotErrorMessage, 'bot');
+            }
+        }
+
+        // Función de inicialización del chatbot
+        function setupChatbot(toggleButton, panel, closeButton, messagesContainer, input, sendButton, history, lang) {
+            toggleButton.addEventListener('click', () => {
+                panel.classList.toggle('active');
+            });
+
+            closeButton.addEventListener('click', () => {
+                panel.classList.remove('active');
+            });
+
+            sendButton.addEventListener('click', () => {
+                const userMessage = input.value.trim();
+                if (userMessage) {
+                    addMessageToChat(messagesContainer, userMessage, 'user');
+                    input.value = '';
+                    sendMessageToGemini(userMessage, history, messagesContainer, lang);
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+
+            // Añadir el mensaje inicial del bot al historial y al DOM al cargar la página
+            if (messagesContainer.children.length === 0) { // Solo si el contenedor está vacío
+                addMessageToChat(messagesContainer, history[0].parts[0].text, 'bot');
+            }
+        }
 
 
-        // Alternar selector de idioma
-        languageToggle.addEventListener('click', (event) => {
-            event.stopPropagation(); // Evitar que el clic se propague al documento y cierre el menú desplegable
+        // Función para solicitar pantalla completa
+        function requestFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { /* Firefox */
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { /* IE/Edge */
+                element.msRequestFullscreen();
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // Alternar el selector de idioma
+        languageToggleButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Evitar que el clic se propague al documento
             languageDropdown.classList.toggle('active');
         });
 
-        // Manejar clics en elementos de idioma
-        document.querySelectorAll('.language-item').forEach(item => {
+        // Seleccionar un idioma
+        languageItems.forEach(item => {
             item.addEventListener('click', (event) => {
-                const newLang = event.currentTarget.dataset.lang;
-                updateContent(newLang);
+                currentLang = item.dataset.lang;
+                updateContent(currentLang);
                 languageDropdown.classList.remove('active');
+                event.stopPropagation(); // Evitar que el clic se propague al documento
             });
         });
 
@@ -998,7 +1090,6 @@
             if (!languageSelectorContainer.contains(event.target)) {
                 languageDropdown.classList.remove('active');
             }
-            // Cerrar menús desplegables de leyenda si se hace clic fuera
             const legendSelectorContainerEs = document.querySelector('#es-map-section .legend-selector-container');
             if (legendSelectorContainerEs && !legendSelectorContainerEs.contains(event.target)) {
                 legendDropdownEs.classList.remove('active');
@@ -1007,16 +1098,24 @@
             if (legendSelectorContainerEn && !legendSelectorContainerEn.contains(event.target)) {
                 legendDropdownEn.classList.remove('active');
             }
+            // Cerrar el menú desplegable de la leyenda en francés si se hace clic fuera (NUEVO)
+            const legendSelectorContainerFr = document.querySelector('#fr-map-section .legend-selector-container');
+            if (legendSelectorContainerFr && !legendSelectorContainerFr.contains(event.target)) {
+                legendDropdownFr.classList.remove('active');
+            }
         });
 
-        // --- Funcionalidad de alternar leyenda ---
+        // Funcionalidad de alternar leyenda
         if (legendToggleEs) {
             legendToggleEs.addEventListener('click', (event) => {
                 event.stopPropagation();
                 legendDropdownEs.classList.toggle('active');
-                // Cerrar otro menú desplegable de leyenda si está abierto
                 if (legendDropdownEn && legendDropdownEn.classList.contains('active')) {
                     legendDropdownEn.classList.remove('active');
+                }
+                // Cerrar el menú desplegable de la leyenda en francés si está abierto
+                if (legendDropdownFr && legendDropdownFr.classList.contains('active')) {
+                    legendDropdownFr.classList.remove('active');
                 }
             });
         }
@@ -1024,112 +1123,139 @@
             legendToggleEn.addEventListener('click', (event) => {
                 event.stopPropagation();
                 legendDropdownEn.classList.toggle('active');
-                // Cerrar otro menú desplegable de leyenda si está abierto
                 if (legendDropdownEs && legendDropdownEs.classList.contains('active')) {
                     legendDropdownEs.classList.remove('active');
+                }
+                // Cerrar el menú desplegable de la leyenda en francés si está abierto
+                if (legendDropdownFr && legendDropdownFr.classList.contains('active')) {
+                    legendDropdownFr.classList.remove('active');
+                }
+            });
+        }
+        // Añadir la funcionalidad para el botón de leyenda en francés (NUEVO)
+        if (legendToggleFr) {
+            legendToggleFr.addEventListener('click', (event) => {
+                event.stopPropagation();
+                legendDropdownFr.classList.toggle('active');
+                // Cerrar otros menús desplegables de leyenda si están abiertos
+                if (legendDropdownEs && legendDropdownEs.classList.contains('active')) {
+                    legendDropdownEs.classList.remove('active');
+                }
+                if (legendDropdownEn && legendDropdownEn.classList.contains('active')) {
+                    legendDropdownEn.classList.remove('active');
                 }
             });
         }
 
-        // --- Envío de formulario y validación de código ---
-        const codeForm = document.getElementById('code-form');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const codeEntrySection = document.getElementById('code-entry-section');
+        // Manejar el envío del formulario de código
+        document.getElementById('code-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevenir el envío por defecto del formulario
+            messageBox.classList.add('hidden'); // Ocultar mensajes de error anteriores
+            loadingIndicator.classList.remove('hidden'); // Mostrar indicador de carga
 
-        // IMPORTANTE: Esta es la URL de tu Google App Script que maneja el doPost
-        const APP_SCRIPT_VALIDATION_URL = 'https://script.google.com/macros/s/AKfycbzUyJfJtItPTqhueAFuK3ltfbuYK4hSE8nXO5Hv6EkfiMajmLSSv0HuUrMadW5-diBabA/exec';
-
-        codeForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
             const code = codeInput.value.trim();
 
-            messageBox.classList.add('hidden');
-            messageBox.textContent = ''; // Limpiar mensajes anteriores
-            loadingIndicator.classList.remove('hidden');
-            submitButton.disabled = true;
-            codeInput.disabled = true;
-
             try {
-                // Enviar el código como application/x-www-form-urlencoded para compatibilidad con doPost
-                const response = await fetch(APP_SCRIPT_VALIDATION_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({ codigo: code }) // Envía el código como 'codigo=VALOR'
-                });
+                // Simular una llamada a una API de validación (reemplazar con tu API real)
+                // const response = await fetch('/api/validate-code', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({ code: code })
+                // });
+                // const result = await response.json();
 
-                const result = await response.json();
+                // Simulación de respuesta de API para pruebas
+                let result = {};
+                switch (code) {
+                    case 'PAMPLONAES':
+                        result = { valido: true, urlRedireccion: 'https://illustrious-sherbet-a1b6fc.netlify.app/' };
+                        break;
+                    case 'PAMPLONAEN':
+                        result = { valido: true, urlRedireccion: 'https://68359b9a0a454de624224515--scintillating-capybara-21e569.netlify.app/' };
+                        break;
+                    case 'PAMPLONAFR': // Código para el mapa en francés
+                        result = { valido: true, urlRedireccion: 'https://dashing-crisp-97b881.netlify.app/' }; // ASEGÚRATE DE QUE ESTA URL COINCIDA CON LA DEL IFRAME
+                        break;
+                    case 'INVALID':
+                        result = { valido: false, mensaje: 'invalidCode' };
+                        break;
+                    case 'EXPIRED':
+                        result = { valido: false, mensaje: 'codeExpired' };
+                        break;
+                    case 'LIMIT':
+                        result = { valido: false, mensaje: 'usageLimitExceeded' };
+                        break;
+                    default:
+                        result = { valido: false, mensaje: 'invalidCode' };
+                        break;
+                }
 
-                if (result.valido) { // Tu App Script devuelve 'valido'
-                    const mapLanguage = result.urlRedireccion.includes('illustrious-sherbet') ? 'es' : 'en';
+                if (result.valido) {
+                    // Actualizar para detectar el mapa en francés
+                    let mapLanguage;
+                    if (result.urlRedireccion.includes('illustrious-sherbet')) {
+                        mapLanguage = 'es';
+                    } else if (result.urlRedireccion.includes('scintillating-capybara')) {
+                        mapLanguage = 'en';
+                    } else if (result.urlRedireccion.includes('dashing-crisp')) { // Asegúrate de que esta URL sea única para tu mapa en francés
+                        mapLanguage = 'fr';
+                    }
                     
                     codeEntrySection.classList.add('hidden');
+                    // Ocultar todas las secciones de mapa y luego mostrar la correcta
+                    esMapSection.classList.add('hidden');
+                    esMapSection.classList.remove('flex'); // Eliminar flex para asegurar que no ocupe espacio
+                    enMapSection.classList.add('hidden');
+                    enMapSection.classList.remove('flex'); // Eliminar flex para asegurar que no ocupe espacio
+                    frMapSection.classList.add('hidden'); // Asegurarse de que el mapa en francés esté oculto inicialmente
+                    frMapSection.classList.remove('flex'); // Eliminar flex para asegurar que no ocupe espacio
+
+
                     if (mapLanguage === 'es') {
                         esMapSection.classList.remove('hidden');
                         esMapSection.classList.add('flex');
-                        enMapSection.classList.add('hidden'); // Asegurarse de que el otro mapa esté oculto
                     } else if (mapLanguage === 'en') {
                         enMapSection.classList.remove('hidden');
                         enMapSection.classList.add('flex');
-                        esMapSection.classList.add('hidden'); // Asegurarse de que el otro mapa esté oculto
+                    } else if (mapLanguage === 'fr') { // Mostrar el mapa en francés
+                        frMapSection.classList.remove('hidden');
+                        frMapSection.classList.add('flex');
                     }
                     // Actualizar el contenido de la sección del mapa al idioma validado
                     updateContent(mapLanguage);
 
                     // Establecer el mensaje inicial del chatbot según el idioma
                     if (mapLanguage === 'es') {
-                        // Limpiar mensajes anteriores y añadir el inicial
-                        chatbotMessagesEs.innerHTML = ''; 
+                        chatbotMessagesEs.innerHTML = '';
                         addMessageToChat(chatbotMessagesEs, translations['es'].chatbotInitialMessage, 'bot');
-                        chatHistoryEs.length = 0; // Limpiar historial
-                        chatHistoryEs.push({ role: "model", parts: [{ text: translations['es'].chatbotInitialMessage }] }); // Añadir solo el mensaje inicial del bot
+                        chatHistoryEs.length = 0;
+                        chatHistoryEs.push({ role: "model", parts: [{ text: translations['es'].chatbotInitialMessage }] });
                     } else if (mapLanguage === 'en') {
-                        // Limpiar mensajes anteriores y añadir el inicial
                         chatbotMessagesEn.innerHTML = '';
                         addMessageToChat(chatbotMessagesEn, translations['en'].chatbotInitialMessage, 'bot');
-                        chatHistoryEn.length = 0; // Limpiar historial
-                        chatHistoryEn.push({ role: "model", parts: [{ text: translations['en'].chatbotInitialMessage }] }); // Añadir solo el mensaje inicial del bot
+                        chatHistoryEn.length = 0;
+                        chatHistoryEn.push({ role: "model", parts: [{ text: translations['en'].chatbotInitialMessage }] });
+                    } else if (mapLanguage === 'fr') { // Añadir la lógica para el chatbot en francés
+                        chatbotMessagesFr.innerHTML = '';
+                        addMessageToChat(chatbotMessagesFr, translations['fr'].chatbotInitialMessage, 'bot');
+                        chatHistoryFr.length = 0;
+                        chatHistoryFr.push({ role: "model", parts: [{ text: translations['fr'].chatbotInitialMessage }] });
                     }
-
 
                 } else {
-                    // Mostrar mensaje de error específico del App Script
-                    let errorMessage = translations[currentLang].invalidCode; // Mensaje por defecto
-                    if (result.mensaje === 'Este código ha caducado.' || result.mensaje === 'This code has expired.') {
-                        errorMessage = translations[currentLang].codeExpired;
-                    } else if (result.mensaje === 'Este código ha excedido el número máximo de usos.' || result.mensaje === 'This code has exceeded the maximum number of uses.') {
-                        errorMessage = translations[currentLang].usageLimitExceeded;
-                    } else if (result.mensaje) {
-                        errorMessage = result.mensaje; // Otros mensajes específicos del App Script
-                    }
-                    messageBox.textContent = errorMessage;
+                    messageBox.textContent = translations[currentLang][result.mensaje] || translations[currentLang].invalidCode;
                     messageBox.classList.remove('hidden');
                 }
             } catch (error) {
-                console.error('Error validating code:', error);
-                messageBox.textContent = 'Error de conexión. Por favor, inténtalo de nuevo más tarde.';
+                console.error('Error al validar el código:', error);
+                messageBox.textContent = 'Hubo un error al validar el código. Inténtalo de nuevo más tarde.';
                 messageBox.classList.remove('hidden');
             } finally {
-                loadingIndicator.classList.add('hidden');
-                submitButton.disabled = false;
-                codeInput.disabled = false;
+                loadingIndicator.classList.add('hidden'); // Ocultar indicador de carga
             }
         });
 
-        // --- Funcionalidad de pantalla completa para iframes ---
-        function requestFullscreen(iframeElement) {
-            if (iframeElement.requestFullscreen) {
-                iframeElement.requestFullscreen();
-            } else if (iframeElement.mozRequestFullScreen) { /* Firefox */
-                iframeElement.mozRequestFullScreen();
-            } else if (iframeElement.webkitRequestFullscreen) { /* Chrome, Safari y Opera */
-                iframeElement.webkitRequestFullscreen();
-            } else if (iframeElement.msRequestFullscreen) { /* IE/Edge */
-                iframeElement.msRequestFullscreen();
-            }
-        }
-
+        // Botones de pantalla completa
         fullscreenEsMapButton.addEventListener('click', () => {
             requestFullscreen(esMapIframe);
         });
@@ -1138,564 +1264,35 @@
             requestFullscreen(enMapIframe);
         });
 
-        // --- Funcionalidad de alternar Chatbot ---
-        function setupChatbot(toggleButton, panel, closeButton, messagesDiv, inputField, sendButton, chatHistoryArray, lang) {
-            toggleButton.addEventListener('click', () => {
-                panel.classList.toggle('active');
-                if (panel.classList.contains('active')) {
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight; // Desplazar hasta el final al abrir
-                    inputField.focus(); // Enfocar el campo de entrada
-                }
-            });
+        fullscreenFrMapButton.addEventListener('click', () => { // NUEVO para francés
+            requestFullscreen(frMapIframe);
+        });
 
-            closeButton.addEventListener('click', () => {
-                panel.classList.remove('active');
-            });
 
-            sendButton.addEventListener('click', () => {
-                sendMessage(inputField, messagesDiv, chatHistoryArray, lang);
-            });
-
-            inputField.addEventListener('keypress', (event) => {
-                if (event.key === 'Enter') {
-                    sendMessage(inputField, messagesDiv, chatHistoryArray, lang);
-                }
-            });
-        }
-
-        // Inicializar chatbots con sus respectivos historiales de chat
+        // Inicializar chatbots
         if (chatbotToggleEs) {
             setupChatbot(chatbotToggleEs, chatbotPanelEs, chatbotCloseEs, chatbotMessagesEs, chatbotInputEs, chatbotSendEs, chatHistoryEs, 'es');
         }
         if (chatbotToggleEn) {
             setupChatbot(chatbotToggleEn, chatbotPanelEn, chatbotCloseEn, chatbotMessagesEn, chatbotInputEn, chatbotSendEn, chatHistoryEn, 'en');
         }
+        if (chatbotToggleFr) { // NUEVO para francés
+            setupChatbot(chatbotToggleFr, chatbotPanelFr, chatbotCloseFr, chatbotMessagesFr, chatbotInputFr, chatbotSendFr, chatHistoryFr, 'fr');
+        }
+
+
+        // Inicializar el contenido al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            // Determinar el idioma preferido del navegador o usar el español por defecto
+            const browserLang = navigator.language.split('-')[0];
+            if (translations[browserLang]) {
+                currentLang = browserLang;
+            } else {
+                currentLang = 'es'; // Fallback a español
+            }
+            updateContent(currentLang);
+        });
 
     </script>
 </body>
-=======
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso a Fotoquest - Pamplona</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #DC2626; /* Rojo San Fermín para el fondo */
-            padding-top: 150px; /* Ajustado para el nuevo alto del encabezado fijo */
-        }
-        /* Estilos personalizados para los colores corporativos de San Fermín/Pamplona */
-        .sap-card {
-            background-color: #fef4f4; /* Rojo muy claro para el fondo de la tarjeta */
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-            padding: 2.5rem;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid #e2e8f0; /* Borde claro */
-        }
-        .sap-input {
-            border: 1px solid #cbd5e1; /* Borde gris medio */
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            width: 100%;
-            transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .sap-input:focus {
-            outline: none;
-            border-color: #ef4444; /* Borde rojo al enfocar (rojo San Fermín) */
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25); /* Resplandor rojo */
-        }
-        .sap-button {
-            background-color: #ef4444; /* Rojo San Fermín */
-            color: #ffffff;
-            border-radius: 8px;
-            padding: 0.75rem 1.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .sap-button:hover {
-            background-color: #dc2626; /* Rojo más oscuro al pasar el ratón */
-            transform: translateY(-1px);
-        }
-        .sap-button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        /* Estilos específicos del selector de idioma */
-        .language-selector-container {
-            position: relative; /* Cambiado de absoluto a relativo al contenedor padre */
-            z-index: 10;
-        }
-        .language-toggle-button { /* Estilo específico para el botón del globo */
-            background-color: #A00000; /* Rojo más oscuro para el contraste */
-            color: #ffffff;
-            border-radius: 9999px; /* Completamente redondeado (forma de píldora) */
-            padding: 0.5rem; /* Relleno más pequeño */
-            width: 40px; /* Ancho fijo para un círculo pequeño */
-            height: 40px; /* Alto fijo para un círculo pequeño */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem; /* Icono de globo más grande */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-        }
-        .language-toggle-button:hover {
-            background-color: #800000; /* Rojo aún más oscuro al pasar el ratón */
-            transform: translateY(-1px);
-        }
-        .language-toggle-button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .language-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 0.25rem 0;
-            min-width: 120px;
-            display: none;
-            flex-direction: column;
-            border: 1px solid #e2e8f0;
-        }
-        .language-dropdown.active {
-            display: flex;
-        }
-        .language-item {
-            padding: 0.5rem 0.75rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-        .language-item:hover {
-            background-color: #fef2f2; /* Rojo claro al pasar el ratón por los elementos del menú desplegable */
-        }
-        .language-item img {
-            width: 20px; /* Banderas más pequeñas */
-            height: 15px; /* Banderas más pequeñas */
-            border-radius: 2px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-
-        /* Estilos específicos del selector de leyenda */
-        .legend-selector-container {
-            position: absolute; /* Cambiado de relative a absolute para posicionamiento simétrico */
-            z-index: 9; /* Z-index inferior al selector de idioma */
-            top: 4px; /* Simétrico al botón de idioma */
-            left: 4px; /* Alineado a la izquierda */
-            right: auto; /* Deshabilitar alineación a la derecha */
-        }
-        .legend-toggle-button {
-            background-color: #6b7280; /* Botón gris */
-            color: #ffffff;
-            border-radius: 9999px; /* Completamente redondeado */
-            padding: 0.5rem;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-        }
-        .legend-toggle-button:hover {
-            background-color: #4b5563;
-            transform: translateY(-1px);
-        }
-        .legend-toggle-button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .legend-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0; /* Posición a la izquierda */
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 0.5rem 0;
-            min-width: 220px; /* Más ancho para el texto de la leyenda */
-            display: none;
-            flex-direction: column;
-            border: 1px solid #e2e8f0;
-        }
-        .legend-dropdown.active {
-            display: flex;
-        }
-        .legend-item {
-            padding: 0.75rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.95rem;
-            color: #333;
-        }
-        .legend-item i {
-            font-size: 1.2rem; /* Tamaño del icono */
-        }
-        .map-container {
-            width: 100%;
-            height: 55vh; /* Ligeramente más alto para mejor visualización */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-        }
-        .map-iframe {
-            width: 100%;
-            height: 100%; /* Asegura que el iframe llene su contenedor */
-            border: none; /* Elimina el borde por defecto del iframe */
-        }
-        @media (min-width: 768px) { /* Punto de interrupción md */
-            .map-container {
-                height: 85vh; /* Altura original para pantallas más grandes, un poco más alta */
-            }
-        }
-        .fullscreen-button {
-            background-color: #6b7280; /* Botón gris */
-            color: #ffffff;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
-            transition: background-color 0.2s ease-in-out;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .fullscreen-button:hover {
-            background-color: #4b5563; /* Gris más oscuro al pasar el ratón */
-        }
-        .footer {
-            margin-top: 2rem;
-            padding: 1rem;
-            text-align: center;
-            color: #64748b; /* Texto gris pizarra */
-            font-size: 0.875rem;
-        }
-        /* Nuevo estilo de fondo del encabezado */
-        .header-background {
-            background-image: url('https://i.imgur.com/fbid5J1.jpg'); /* Imagen de fondo actualizada */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        /* MODIFICACION PARA EL HEADER */
-        header {
-            min-height: 150px; /* Aumentar la altura mínima del encabezado */
-            display: flex; /* Asegura que flexbox funcione para alinear contenido */
-            align-items: center; /* Centra verticalmente el contenido */
-            justify-content: center; /* Centra horizontalmente el contenido */
-            padding: 0; /* Elimina el padding de Tailwind para controlarlo internamente */
-        }
-
-        /* Estilos del Chatbot */
-        .chatbot-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100; /* Asegura que esté por encima de otro contenido */
-        }
-        .chatbot-toggle-button {
-            background-color: #ef4444; /* Rojo San Fermín */
-            color: #ffffff;
-            border-radius: 9999px; /* Círculo completo */
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-            cursor: pointer;
-        }
-        .chatbot-toggle-button:hover {
-            background-color: #dc2626;
-            transform: translateY(-2px);
-        }
-        .chatbot-panel {
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-            width: 320px;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transform: translateY(10px); /* Ligero desplazamiento inicial */
-            opacity: 0;
-            visibility: hidden;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
-            position: absolute; /* Posición relativa al contenedor del chatbot */
-            bottom: 70px; /* Encima del botón de alternar */
-            right: 0;
-        }
-        .chatbot-panel.active {
-            transform: translateY(0);
-            opacity: 1;
-            visibility: visible;
-        }
-        .chatbot-header {
-            background-color: #ef4444;
-            color: #ffffff;
-            padding: 0.75rem 1rem;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
-        .chatbot-messages {
-            flex-grow: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            background-color: #f0f2f5; /* Gris claro para el fondo del chat */
-            border-bottom: 1px solid #e2e8f0;
-            display: flex; /* Usar flexbox para los mensajes */
-            flex-direction: column; /* Apilar mensajes verticalmente */
-        }
-        .chatbot-input-area {
-            display: flex;
-            padding: 0.75rem 1rem;
-            border-top: 1px solid #e2e8f0;
-        }
-        .chatbot-input {
-            flex-grow: 1;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            padding: 0.5rem 0.75rem;
-            font-size: 0.9rem;
-            margin-right: 0.5rem;
-        }
-        .chatbot-send-button {
-            background-color: #ef4444;
-            color: #ffffff;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
-            font-weight: 500;
-            transition: background-color 0.2s ease-in-out;
-        }
-        .chatbot-send-button:hover {
-            background-color: #dc2626;
-        }
-        .chatbot-message {
-            margin-bottom: 0.5rem;
-            padding: 0.6rem 0.8rem;
-            border-radius: 10px;
-            max-width: 80%;
-            word-wrap: break-word; /* Asegura que las palabras largas se ajusten */
-        }
-        .chatbot-message.user {
-            background-color: #e0f2fe; /* Azul claro para los mensajes del usuario */
-            align-self: flex-end;
-            margin-left: auto;
-        }
-        .chatbot-message.bot {
-            background-color: #e2e8f0; /* Gris claro para los mensajes del bot */
-            align-self: flex-start;
-            margin-right: auto;
-        }
-        .chatbot-loading-dots {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #6b7280;
-            border-radius: 50%;
-            animation: bounce 1.4s infinite ease-in-out both;
-            margin: 0 2px;
-        }
-        .chatbot-loading-dots:nth-child(1) { animation-delay: -0.32s; }
-        .chatbot-loading-dots:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-    </style>
-</head>
-<body class="flex flex-col min-h-screen">
-
-    <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
-        <div class="flex items-center max-w-4xl w-full p-4"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="" class="h-12 w-auto mr-4">
-            <h1 id="header-title" class="text-3xl font-bold text-red-600 tracking-tight">SanferTour</h1>
-        </div>
-    </header>
-
-    <div id="app-container" class="relative w-full max-w-4xl mx-auto flex flex-col flex-grow p-4">
-
-        <div class="language-selector-container absolute top-4 right-4">
-            <button id="language-toggle" class="language-toggle-button">
-                <i class="fas fa-globe text-white"></i>
-            </button>
-            <div id="language-dropdown" class="language-dropdown">
-                <div class="language-item" data-lang="es">
-                    <img src="https://flagcdn.com/es.svg" alt="Spanish Flag">
-                    <span>Español</span>
-                </div>
-                <div class="language-item" data-lang="en">
-                    <img src="https://flagcdn.com/gb.svg" alt="English Flag">
-                    <span>English</span>
-                </div>
-                <div class="language-item" data-lang="fr">
-                    <img src="https://flagcdn.com/fr.svg" alt="French Flag">
-                    <span>Français</span>
-                </div>
-                <div class="language-item" data-lang="de">
-                    <img src="https://flagcdn.com/de.svg" alt="German Flag">
-                    <span>Deutsch</span>
-                </div>
-                <div class="language-item" data-lang="it">
-                    <img src="https://flagcdn.com/it.svg" alt="Italian Flag">
-                    <span>Italiano</span>
-                </div>
-                <div class="language-item" data-lang="zh">
-                    <img src="https://flagcdn.com/cn.svg" alt="Chinese Flag">
-                    <span>中文</span>
-                </div>
-                <div class="language-item" data-lang="eu">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Flag_of_the_Basque_Country_by_Sabino_Arana.svg/220px-Flag_of_the_Basque_Country_by_Sabino_Arana.svg.png" alt="Basque Flag">
-                    <span>Euskera</span>
-                </div>
-                <div class="language-item" data-lang="ja">
-                    <img src="https://flagcdn.com/jp.svg" alt="Japanese Flag">
-                    <span>日本語</span>
-                </div>
-                <div class="language-item" data-lang="pt">
-                    <img src="https://flagcdn.com/pt.svg" alt="Portuguese Flag">
-                    <span>Português</span>
-                </div>
-            </div>
-        </div>
-
-        <section id="code-entry-section" class="flex flex-col items-center justify-center flex-grow">
-            <div class="sap-card text-center">
-                <p id="welcome-instruction" class="text-gray-700 text-lg mb-4 font-semibold"></p>
-                
-                <h1 id="form-title" class="text-4xl font-bold text-gray-800 mb-4"></h1>
-                
-                <p id="form-description" class="text-xl text-gray-600 mb-8"></p>
-                <form id="code-form" class="space-y-6">
-                    <div>
-                        <label for="code-input" id="code-label" class="block text-left text-gray-700 text-sm font-medium mb-2">Código de Acceso</label>
-                        <input type="text" id="code-input" class="sap-input" placeholder="Introduce tu código aquí" required>
-                    </div>
-                    <button type="submit" id="submit-button" class="sap-button w-full">Acceder</button>
-                    <div id="message-box" class="text-red-600 text-sm mt-4 hidden"></div>
-                    <div id="loading-indicator" class="hidden flex items-center justify-center mt-4 text-red-600">
-                        <i class="fas fa-spinner fa-spin mr-2"></i> <span id="loading-text">Validando código...</span>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        <section id="es-map-section" class="hidden flex flex-col items-center justify-center w-full p-4">
-            <div class="sap-card w-full max-w-4xl text-center mb-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-es"></h2>
-                <p class="text-gray-700 mb-4" id="map-description-es"></p>
-                
-                <div class="legend-selector-container absolute">
-                    <button id="legend-toggle-es" class="legend-toggle-button">
-                        <i class="fas fa-info text-white"></i> </button>
-                    <div id="legend-dropdown-es" class="legend-dropdown">
-                        <div class="legend-item">
-                            <i class="fas fa-map-pin text-blue-600"></i>
-                            <span id="legend-gastro-es">Gastroguía y Ocio Nocturno</span>
-                        </div>
-                        <div class="legend-item">
-                            <i class="fas fa-location-dot text-red-600"></i> <span id="legend-audioguia-es">Audioguía</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="fullscreen-es-map" class="fullscreen-button mb-4">
-                    <i class="fas fa-expand mr-2"></i> Pantalla Completa
-                </button>
-                <div class="map-container">
-                    <iframe id="es-map-iframe" class="map-iframe" src="https://illustrious-sherbet-a1b6fc.netlify.app/" allowfullscreen allow="geolocation"></iframe>
-                </div>
-            </div>
-            <div class="chatbot-container">
-                <button id="chatbot-toggle-es" class="chatbot-toggle-button">
-                    <i class="fas fa-comments"></i>
-                </button>
-                <div id="chatbot-panel-es" class="chatbot-panel">
-                    <div class="chatbot-header">
-                        <span id="chatbot-header-text-es">Chatbot de Ayuda</span>
-                        <button id="chatbot-close-es" class="text-white text-xl leading-none">&times;</button>
-                    </div>
-                    <div id="chatbot-messages-es" class="chatbot-messages flex flex-col">
-                        <div class="chatbot-message bot"></div> </div>
-                    <div class="chatbot-input-area">
-                        <input type="text" id="chatbot-input-es" class="chatbot-input" placeholder="Escribe tu mensaje...">
-                        <button id="chatbot-send-es" class="chatbot-send-button">Enviar</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="en-map-section" class="hidden flex flex-col items-center justify-center w-full p-4">
-            <div class="sap-card w-full max-w-4xl text-center mb-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-en"></h2>
-                <p class="text-gray-700 mb-4" id="map-description-en"></p>
-
-                <div class="legend-selector-container absolute">
-                    <button id="legend-toggle-en" class="legend-toggle-button">
-                        <i class="fas fa-info text-white"></i> </button>
-                    <div id="legend-dropdown-en" class="legend-dropdown">
-                        <div class="legend-item">
-                            <i class="fas fa-map-pin text-blue-600"></i>
-                            <span id="legend-gastro-en">Gastronomy and Nightlife Guide</span>
-                        </div>
-                        <div class="legend-item">
-                            <i class="fas fa-location-dot text-red-600"></i> <span id="legend-audioguia-en">Audio Guide</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="fullscreen-en-map" class="fullscreen-button mb-4">
-                    <i class="fas fa-expand mr-2"></i> Fullscreen
-                </button>
-                <div class="map-container">
-                    <iframe id="en-map-iframe" class="map-iframe" src="https://68359b9a0a454de624224515--scintillating-capybara-21e569.netlify.app/" allowfullscreen allow="geolocation"></iframe>
-                </div>
-            </div>
-            <div class="chatbot-container">
-                <button id="chatbot-toggle-en" class="chatbot-toggle-button">
-                    <i class="fas fa-comments"></i>
-                </button>
-                <div id="chatbot-panel-en" class="chatbot-panel">
-                    <div class="chatbot-header">
-                        <span id="chatbot-header-text-en">Help Chatbot</span>
-                        <button id="chatbot-close-en" class="text-white text-xl leading-none">&times;</button>
-                    </div>
-                    <div id="chatbot-messages-en" class="chatbot-messages flex flex-col">
-                        <div class="chatbot-message bot"></div> </div>
-                    <div class="chatbot-input-area">
-                        <input type="text" id="chatbot-input-en" class="chatbot-input" placeholder="Type your message...">
-                        <button id="chatbot-send-en" class="chatbot-send-button">Enviar</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </div>
-
-    <footer class="footer">
-        <p id="copyright-text">&copy; 2025 Fotoquest Pamplona. Todos los derechos reservados. Prohibida su descarga, reproducción o uso no autorizado.</p>
-    </footer>
-
- 
+</html>
