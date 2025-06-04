@@ -1,4 +1,4 @@
-HEAD<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -205,6 +205,10 @@ HEAD<!DOCTYPE html>
         .fullscreen-button:hover {
             background-color: #4b5563; /* Gris más oscuro al pasar el ratón */
         }
+        .fullscreen-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
         .footer {
             margin-top: 2rem;
             padding: 1rem;
@@ -361,7 +365,7 @@ HEAD<!DOCTYPE html>
 
     <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
         <div class="flex items-center max-w-4xl w-full p-4"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="" class="h-12 w-auto mr-4">
-            <h1 id="header-title" class="text-3xl font-bold text-red-600 tracking-tight">SanferTour</h1>
+            <h1 id="header-title" class="text-3xl font-bold text-red-600 tracking-tight">Sanfertour</h1>
         </div>
     </header>
 
@@ -432,7 +436,7 @@ HEAD<!DOCTYPE html>
             </div>
         </section>
 
-        <section id="es-map-section" class="hidden flex flex-col items-center justify-center w-full p-4">
+        <section id="es-map-section" class="hidden flex-col items-center justify-center w-full p-4">
             <div class="sap-card w-full max-w-4xl text-center mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-es"></h2>
                 <p class="text-gray-700 mb-4" id="map-description-es"></p>
@@ -477,7 +481,7 @@ HEAD<!DOCTYPE html>
             </div>
         </section>
 
-        <section id="en-map-section" class="hidden flex flex-col items-center justify-center w-full p-4">
+        <section id="en-map-section" class="hidden flex-col items-center justify-center w-full p-4">
             <div class="sap-card w-full max-w-4xl text-center mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-en"></h2>
                 <p class="text-gray-700 mb-4" id="map-description-en"></p>
@@ -522,7 +526,7 @@ HEAD<!DOCTYPE html>
             </div>
         </section>
 
-        <section id="fr-map-section" class="hidden flex flex-col items-center justify-center w-full p-4">
+        <section id="fr-map-section" class="hidden flex-col items-center justify-center w-full p-4">
             <div class="sap-card w-full max-w-4xl text-center mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-fr"></h2>
                 <p class="text-gray-700 mb-4" id="map-description-fr"></p>
@@ -936,16 +940,22 @@ HEAD<!DOCTYPE html>
         // Función para mostrar la sección del mapa correcta y ocultar las otras
         function showMapSection(lang) {
             codeEntrySection.classList.add('hidden');
+            esMapSection.classList.remove('flex'); // Asegurarse de quitar flex para ocultar correctamente
             esMapSection.classList.add('hidden');
+            enMapSection.classList.remove('flex');
             enMapSection.classList.add('hidden');
-            frMapSection.classList.add('hidden'); // Ocultar también la sección de francés
+            frMapSection.classList.remove('flex'); // Ocultar también la sección de francés
+            frMapSection.classList.add('hidden');
 
             if (lang === 'es') {
                 esMapSection.classList.remove('hidden');
+                esMapSection.classList.add('flex');
             } else if (lang === 'en') {
                 enMapSection.classList.remove('hidden');
+                enMapSection.classList.add('flex');
             } else if (lang === 'fr') { // Mostrar la sección de francés
                 frMapSection.classList.remove('hidden');
+                frMapSection.classList.add('flex');
             }
             // Asegúrate de que el contenido del mapa se actualice al cambiar de idioma
             updateContent(lang);
@@ -982,9 +992,18 @@ HEAD<!DOCTYPE html>
                 currentLang = item.dataset.lang;
                 updateContent(currentLang);
                 languageDropdown.classList.remove('active');
-                // Ocultar todas las secciones de mapa y mostrar la correcta (si ya se ha accedido)
-                if (codeEntrySection.classList.contains('hidden')) { // Si ya estamos en una sección de mapa
-                    showMapSection(currentLang);
+                // Si ya estamos en una sección de mapa, actualizarla al nuevo idioma
+                if (!codeEntrySection.classList.contains('hidden')) { // Si estamos en la pantalla de código
+                    // No hacer nada, el idioma se aplicará cuando se valide el código
+                } else { // Si ya estamos en una sección de mapa
+                    // Determinar qué mapa está actualmente visible y cambiar su idioma
+                    if (!esMapSection.classList.contains('hidden')) {
+                        showMapSection('es'); // Forzar la actualización del mapa ES con el nuevo idioma
+                    } else if (!enMapSection.classList.contains('hidden')) {
+                        showMapSection('en'); // Forzar la actualización del mapa EN con el nuevo idioma
+                    } else if (!frMapSection.classList.contains('hidden')) {
+                        showMapSection('fr'); // Forzar la actualización del mapa FR con el nuevo idioma
+                    }
                 }
             });
         });
@@ -992,72 +1011,103 @@ HEAD<!DOCTYPE html>
         // Inicializar contenido con el idioma por defecto
         updateContent(currentLang);
 
-        // --- Lógica del formulario ---
+        // --- Lógica del formulario (RESTAURADO Y MEJORADO) ---
         const codeForm = document.getElementById('code-form');
 
-        // Códigos válidos para cada mapa (ejemplo)
-        const validCodes = {
-            'ESMAP123': 'es',
-            'ENMAP123': 'en',
-            'FRMAP123': 'fr' // Código para el mapa francés
-        };
+        // IMPORTANTE: Esta es la URL de tu Google App Script que maneja el doPost
+        const APP_SCRIPT_VALIDATION_URL = 'https://script.google.com/macros/s/AKfycbzUyJfJtItPTqhueAFuK3ltfbuYK4hSE8nXO5Hv6EkfiMajmLSSv0HuUrMadW5-diBabA/exec';
 
         codeForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            const code = codeInput.value.trim().toUpperCase();
+            const code = codeInput.value.trim();
+
             messageBox.classList.add('hidden');
+            messageBox.textContent = ''; // Limpiar mensajes anteriores
             loadingIndicator.classList.remove('hidden');
+            submitButton.disabled = true;
+            codeInput.disabled = true;
 
-            // Simular validación asíncrona
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            try {
+                // Enviar el código como application/x-www-form-urlencoded para compatibilidad con doPost
+                const response = await fetch(APP_SCRIPT_VALIDATION_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({ codigo: code }) // Envía el código como 'codigo=VALOR'
+                });
 
-            loadingIndicator.classList.add('hidden');
+                const result = await response.json();
 
-            if (validCodes[code]) {
-                currentLang = validCodes[code]; // Establecer el idioma basado en el código
-                updateContent(currentLang); // Actualizar los textos a ese idioma
-                showMapSection(currentLang); // Mostrar la sección del mapa correspondiente
-            } else {
-                messageBox.textContent = translations[currentLang].invalidCode;
+                if (result.valido) { // Tu App Script devuelve 'valido'
+                    let mapLanguage = 'es'; // Default to Spanish
+                    if (result.urlRedireccion.includes('illustrious-sherbet')) {
+                        mapLanguage = 'es';
+                    } else if (result.urlRedireccion.includes('scintillating-capybara')) {
+                        mapLanguage = 'en';
+                    } else if (result.urlRedireccion.includes('dashing-crisp')) { // NUEVO: Lógica para el mapa francés
+                        mapLanguage = 'fr';
+                    }
+                    
+                    currentLang = mapLanguage; // Actualizar el idioma global
+                    showMapSection(mapLanguage); // Mostrar la sección del mapa correspondiente
+
+                    // Establecer el mensaje inicial del chatbot según el idioma
+                    if (mapLanguage === 'es') {
+                        initializeChatbot('es', chatbotMessagesEs, chatbotInputEs, chatbotSendEs);
+                    } else if (mapLanguage === 'en') {
+                        initializeChatbot('en', chatbotMessagesEn, chatbotInputEn, chatbotSendEn);
+                    } else if (mapLanguage === 'fr') { // NUEVO: Inicializar chatbot francés
+                        initializeChatbot('fr', chatbotMessagesFr, chatbotInputFr, chatbotSendFr);
+                    }
+
+                } else {
+                    // Mostrar mensaje de error específico del App Script
+                    let errorMessage = translations[currentLang].invalidCode; // Mensaje por defecto
+                    if (result.mensaje === 'Este código ha caducado.' || result.mensaje === 'This code has expired.') {
+                        errorMessage = translations[currentLang].codeExpired;
+                    } else if (result.mensaje === 'Este código ha excedido el número máximo de usos.' || result.mensaje === 'This code has exceeded the maximum number of uses.') {
+                        errorMessage = translations[currentLang].usageLimitExceeded;
+                    } else if (result.mensaje) {
+                        errorMessage = result.mensaje; // Otros mensajes específicos del App Script
+                    }
+                    messageBox.textContent = errorMessage;
+                    messageBox.classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Error validating code:', error);
+                messageBox.textContent = 'Error de conexión. Por favor, inténtalo de nuevo más tarde.';
                 messageBox.classList.remove('hidden');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+                submitButton.disabled = false;
+                codeInput.disabled = false;
             }
         });
 
         // --- Lógica del mapa y pantalla completa ---
-        fullscreenEsMapButton.addEventListener('click', () => {
-            if (esMapIframe.requestFullscreen) {
-                esMapIframe.requestFullscreen();
-            } else if (esMapIframe.mozRequestFullScreen) { /* Firefox */
-                esMapIframe.mozRequestFullScreen();
-            } else if (esMapIframe.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                esMapIframe.webkitRequestFullscreen();
-            } else if (esMapIframe.msRequestFullscreen) { /* IE/Edge */
-                esMapIframe.msRequestFullscreen();
+        function requestFullscreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) { /* Firefox */
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) { /* IE/Edge */
+                element.msRequestFullscreen();
             }
+        }
+
+        fullscreenEsMapButton.addEventListener('click', () => {
+            requestFullscreen(esMapIframe);
         });
 
         fullscreenEnMapButton.addEventListener('click', () => {
-            if (enMapIframe.requestFullscreen) {
-                enMapIframe.requestFullscreen();
-            } else if (enMapIframe.mozRequestFullScreen) { /* Firefox */
-                enMapIframe.mozRequestFullScreen();
-            } else if (enMapIframe.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                enMapIframe.webkitRequestFullscreen();
-            } else if (enMapIframe.msRequestFullscreen) { /* IE/Edge */
-                enMapIframe.msRequestFullscreen();
-            }
+            requestFullscreen(enMapIframe);
         });
 
-        fullscreenFrMapButton.addEventListener('click', () => {
-            if (frMapIframe.requestFullscreen) {
-                frMapIframe.requestFullscreen();
-            } else if (frMapIframe.mozRequestFullScreen) { /* Firefox */
-                frMapIframe.mozRequestFullScreen();
-            } else if (frMapIframe.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-                frMapIframe.webkitRequestFullscreen();
-            } else if (frMapIframe.msRequestFullscreen) { /* IE/Edge */
-                frMapIframe.msRequestFullscreen();
-            }
+        fullscreenFrMapButton.addEventListener('click', () => { // NUEVO para francés
+            requestFullscreen(frMapIframe);
         });
 
         // --- Lógica de Leyenda ---
@@ -1083,7 +1133,7 @@ HEAD<!DOCTYPE html>
 
         // --- Lógica del Chatbot ---
 
-        function addMessage(chatMessagesElement, text, sender) {
+        function addMessageToChat(chatMessagesElement, text, sender) {
             const messageElement = document.createElement('div');
             messageElement.classList.add('chatbot-message', sender);
             if (sender === 'bot' && text === 'typing') {
@@ -1097,47 +1147,50 @@ HEAD<!DOCTYPE html>
 
         async function getChatbotResponse(lang, message, chatHistory) {
             // Añadir el mensaje del usuario al historial
-            chatHistory.push({ role: "user", content: message });
+            chatHistory.push({ role: "user", parts: [{ text: message }] });
 
             // Mostrar el mensaje del usuario en el chat
             const chatMessagesElement = document.getElementById(`chatbot-messages-${lang}`);
-            addMessage(chatMessagesElement, message, 'user');
+            addMessageToChat(chatMessagesElement, message, 'user');
 
             // Mostrar indicador de carga
-            addMessage(chatMessagesElement, 'typing', 'bot');
+            addMessageToChat(chatMessagesElement, 'typing', 'bot');
 
+            // --- CAMBIO CLAVE AQUÍ: Llama a tu función de Netlify, no directamente a Gemini ---
+            const netlifyFunctionUrl = '/.netlify/functions/chatbot'; // Ajusta esta URL si tu función tiene otra ruta
+            
             try {
-                const response = await fetch('YOUR_CHATBOT_API_ENDPOINT', { // ¡Reemplaza con tu endpoint de API real!
+                const payload = { contents: chatHistory };
+                const response = await fetch(netlifyFunctionUrl, { // Usa la URL de la función de Netlify
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        lang: lang,
-                        history: chatHistory // Enviar todo el historial
-                    }),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                const result = await response.json();
+                let botResponse = translations[lang].chatbotErrorMessage; // Mensaje de error por defecto
 
-                const data = await response.json();
-                const botResponse = data.response; // Asume que la API devuelve { response: "..." }
+                // La función de Netlify devuelve { text: "..." }, no la estructura completa de Gemini
+                if (result && result.text) {
+                    botResponse = result.text;
+                } else if (result && result.error) {
+                    // Si la función de Netlify devuelve un error específico
+                    botResponse = `Error del servidor: ${result.error}`;
+                }
 
                 // Eliminar el indicador de carga
                 chatMessagesElement.removeChild(chatMessagesElement.lastChild);
 
                 // Añadir la respuesta del bot al historial
-                chatHistory.push({ role: "bot", content: botResponse });
+                chatHistory.push({ role: "model", parts: [{ text: botResponse }] });
 
                 // Mostrar la respuesta del bot
-                addMessage(chatMessagesElement, botResponse, 'bot');
+                addMessageToChat(chatMessagesElement, botResponse, 'bot');
             } catch (error) {
                 console.error("Error fetching chatbot response:", error);
                 chatMessagesElement.removeChild(chatMessagesElement.lastChild); // Eliminar carga
-                addMessage(chatMessagesElement, translations[lang].chatbotErrorMessage, 'bot');
-                chatHistory.push({ role: "bot", content: translations[lang].chatbotErrorMessage }); // Añadir mensaje de error al historial
+                addMessageToChat(chatMessagesElement, translations[lang].chatbotErrorMessage + ` (${error.message})`, 'bot');
+                chatHistory.push({ role: "model", parts: [{ text: translations[lang].chatbotErrorMessage }] }); // Añadir mensaje de error al historial
             }
         }
 
@@ -1146,8 +1199,8 @@ HEAD<!DOCTYPE html>
             chatMessagesElement.innerHTML = ''; // Limpiar mensajes anteriores
             const currentChatHistory = chatHistories[lang];
             currentChatHistory.length = 0; // Vaciar el historial
-            addMessage(chatMessagesElement, translations[lang].chatbotInitialMessage, 'bot');
-            currentChatHistory.push({ role: "bot", content: translations[lang].chatbotInitialMessage }); // Añadir al historial
+            addMessageToChat(chatMessagesElement, translations[lang].chatbotInitialMessage, 'bot');
+            currentChatHistory.push({ role: "model", parts: [{ text: translations[lang].chatbotInitialMessage }] }); // Añadir al historial
 
             chatbotSend.onclick = () => {
                 const message = chatbotInput.value.trim();
@@ -1163,7 +1216,6 @@ HEAD<!DOCTYPE html>
                 }
             };
         }
-
 
         // Event listeners para los toggles del chatbot
         if (chatbotToggleEs) {
@@ -1202,13 +1254,19 @@ HEAD<!DOCTYPE html>
             });
         }
 
-        // Asegurarse de que el chatbot solo tenga el historial de su idioma activo
+        // Inicializar el contenido al cargar la página
         document.addEventListener('DOMContentLoaded', () => {
-            // Inicializar el chatbot del idioma por defecto si está activo
-            if (currentLang === 'es' && chatbotPanelEs.classList.contains('active') && chatHistories['es'].length === 0) {
-                initializeChatbot('es', chatbotMessagesEs, chatbotInputEs, chatbotSendEs);
+            // Determinar el idioma preferido del navegador o usar el español por defecto
+            const browserLang = navigator.language.split('-')[0];
+            if (translations[browserLang]) {
+                currentLang = browserLang;
+            } else {
+                currentLang = 'es'; // Fallback a español
             }
+            updateContent(currentLang);
         });
+
     </script>
 </body>
 </html>
+
