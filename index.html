@@ -1156,25 +1156,26 @@
             // Mostrar indicador de carga
             addMessageToChat(chatMessagesElement, 'typing', 'bot');
 
-            // API Key for Gemini API (leave empty, Canvas will provide it)
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
+            // --- CAMBIO CLAVE AQUÍ: Llama a tu función de Netlify, no directamente a Gemini ---
+            const netlifyFunctionUrl = '/.netlify/functions/chatbot'; // Ajusta esta URL si tu función tiene otra ruta
+            
             try {
                 const payload = { contents: chatHistory };
-                const response = await fetch(apiUrl, {
+                const response = await fetch(netlifyFunctionUrl, { // Usa la URL de la función de Netlify
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
                 const result = await response.json();
-                let botResponse = translations[lang].chatbotErrorMessage; // Default error message
+                let botResponse = translations[lang].chatbotErrorMessage; // Mensaje de error por defecto
 
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    botResponse = result.candidates[0].content.parts[0].text;
+                // La función de Netlify devuelve { text: "..." }, no la estructura completa de Gemini
+                if (result && result.text) {
+                    botResponse = result.text;
+                } else if (result && result.error) {
+                    // Si la función de Netlify devuelve un error específico
+                    botResponse = `Error del servidor: ${result.error}`;
                 }
 
                 // Eliminar el indicador de carga
@@ -1188,7 +1189,7 @@
             } catch (error) {
                 console.error("Error fetching chatbot response:", error);
                 chatMessagesElement.removeChild(chatMessagesElement.lastChild); // Eliminar carga
-                addMessageToChat(chatMessagesElement, translations[lang].chatbotErrorMessage, 'bot');
+                addMessageToChat(chatMessagesElement, translations[lang].chatbotErrorMessage + ` (${error.message})`, 'bot');
                 chatHistory.push({ role: "model", parts: [{ text: translations[lang].chatbotErrorMessage }] }); // Añadir mensaje de error al historial
             }
         }
