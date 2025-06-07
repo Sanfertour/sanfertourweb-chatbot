@@ -560,7 +560,7 @@
                         <span id="chatbot-header-text-fr"></span>
                         <button id="chatbot-close-fr" class="text-white text-xl leading-none">&times;</button>
                     </div>
-                    <div id="chatbot-messages-fr" class="chatbot-messages flex flex-col">
+                    <div class="chatbot-messages flex flex-col">
                         <div class="chatbot-message bot"></div> </div>
                     <div class="chatbot-input-area">
                         <input type="text" id="chatbot-input-fr" class="chatbot-input" placeholder="">
@@ -696,7 +696,7 @@
                 mapDescription: "L'esperienza Gotour unica: a modo tuo, al tuo ritmo.",
                 legendToggle: "Legenda della Mappa",
                 legendGastro: "Guida gastronomica e vita notturna",
-                legendAudioguia: "Audioguida",
+                legendAudioguida: "Audioguida",
                 fullscreenButton: "Schermo intero",
                 chatbotHeaderText: "Chatbot di aiuto",
                 chatbotInputPlaceholder: "Scrivi il tuo messaggio...",
@@ -1086,6 +1086,21 @@
         });
 
         // --- Lógica del mapa y pantalla completa ---
+        // Función para detectar iOS
+        function isIOS() {
+            return [
+                    'iPad Simulator',
+                    'iPhone Simulator',
+                    'iPod Simulator',
+                    'iPad',
+                    'iPhone',
+                    'iPod'
+                ].includes(navigator.platform)
+                // iPad on iOS 13+ detection
+                || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+                ;
+        }
+
         function requestFullscreen(element) {
             if (element.requestFullscreen) {
                 element.requestFullscreen();
@@ -1099,15 +1114,27 @@
         }
 
         fullscreenEsMapButton.addEventListener('click', () => {
-            requestFullscreen(esMapIframe);
+            if (isIOS()) {
+                window.open(esMapIframe.src, '_blank'); // Abre en una nueva pestaña
+            } else {
+                requestFullscreen(esMapIframe); // Comportamiento actual para otros dispositivos
+            }
         });
 
         fullscreenEnMapButton.addEventListener('click', () => {
-            requestFullscreen(enMapIframe);
+            if (isIOS()) {
+                window.open(enMapIframe.src, '_blank');
+            } else {
+                requestFullscreen(enMapIframe);
+            }
         });
 
         fullscreenFrMapButton.addEventListener('click', () => { // NUEVO para francés
-            requestFullscreen(frMapIframe);
+            if (isIOS()) {
+                window.open(frMapIframe.src, '_blank');
+            } else {
+                requestFullscreen(frMapIframe);
+            }
         });
 
         // --- Lógica de Leyenda ---
@@ -1265,6 +1292,10 @@
             }
             updateContent(currentLang);
         });
+
+    </script>
+</body>
+</html>
 
     </script>
 </body>
