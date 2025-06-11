@@ -13,16 +13,26 @@
             background-color: #DC2626; /* Rojo San Fermín para el fondo */
             padding-top: 150px; /* Ajustado para el nuevo alto del encabezado fijo */
         }
-        /* Estilos personalizados para los colores corporativos de San Fermín/Pamplona */
-        .sap-card {
-            background-color: #fef4f4; /* Rojo muy claro para el fondo de la tarjeta */
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más pronunciada */
-            padding: 2.5rem;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid #e2e8f0; /* Borde claro */
-        }
+       .sap-card {
+    background-color: #fef4f4;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem; /* ¡Reducimos el padding! Antes era 2.5rem */
+    max-width: 450px; /* Recortamos un poco el ancho máximo de la tarjeta */
+    width: 95%; /* Hacemos que la tarjeta ocupe un poco más de ancho en móviles, para que el contenido tenga más espacio relativo al padding */
+    border: 1px solid #e2e8f0;
+    margin: 20px auto; /* Agregamos margin auto para centrar la tarjeta si no lo está ya */
+}
+
+/* Puedes mantener tus media queries existentes para .map-container y .map-iframe
+   y, si lo deseas, ajustar el .sap-card también para desktop: */
+@media (min-width: 768px) {
+    .sap-card {
+        padding: 2.5rem; /* Volvemos al padding original para desktop */
+        max-width: 600px; /* Aumentamos el ancho máximo de la tarjeta en desktop */
+        width: 80%; /* Para que la tarjeta ocupe más en pantallas grandes */
+    }
+}
         .sap-input {
             border: 1px solid #cbd5e1; /* Borde gris medio */
             border-radius: 8px;
