@@ -177,10 +177,10 @@
         }
 /* Estilos generales para el contenedor del mapa */
 .map-container {
-    width: 90%; /* Reducimos el ancho en móviles para dejar un poco de margen */
-    max-width: 500px; /* Limitamos el ancho máximo en cualquier dispositivo */
-    height: 60vh; /* Aumentamos ligeramente la altura para una mejor visualización en móviles, pero sin ser excesiva */
-    aspect-ratio: 4/3; /* Esto fuerza una relación de aspecto 4:3 para que no se vea desproporcionado */
+    width: 88%; /* Recortamos un poco más el ancho en móviles */
+    max-width: 480px; /* Reducimos el ancho máximo para que sea más compacto */
+    height: 55vh; /* Recortamos un poco más la altura en móviles */
+    aspect-ratio: 4/3; /* Mantenemos la relación de aspecto 4:3 para una buena proporción */
                         /* Si prefieres 16:9, usa aspect-ratio: 16/9; */
     border-radius: 12px;
     overflow: hidden;
@@ -194,6 +194,17 @@
     width: 100%;
     height: 100%; /* Asegura que el iframe llene su contenedor */
     border: none; /* Elimina el borde por defecto del iframe */
+}
+
+/* Punto de interrupción para pantallas más grandes (tablets y desktop) */
+@media (min-width: 768px) {
+    .map-container {
+        width: 75%; /* Recortamos un poco más el ancho en desktop */
+        max-width: 850px; /* Reducimos el ancho máximo para desktop */
+        height: 65vh; /* Ajustamos la altura para pantallas más grandes, un poco menos que antes */
+        /* Si usas aspect-ratio arriba, puedes omitir height aquí si quieres que mantenga el mismo ratio */
+        /* Si quieres un ratio diferente para desktop, puedes especificarlo aquí: aspect-ratio: 16/9; */
+    }
 }
 
 /* Punto de interrupción para pantallas más grandes (tablets y desktop) */
