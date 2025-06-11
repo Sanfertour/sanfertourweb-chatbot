@@ -175,23 +175,34 @@
         .legend-item i {
             font-size: 1.2rem; /* Tamaño del icono */
         }
-        .map-container {
-            width: 100%;
-            height: 55vh; /* Ligeramente más alto para mejor visualización */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-        }
-        .map-iframe {
-            width: 100%;
-            height: 100%; /* Asegura que el iframe llene su contenedor */
-            border: none; /* Elimina el borde por defecto del iframe */
-        }
-        @media (min-width: 768px) { /* Punto de interrupción md */
-            .map-container {
-                height: 85vh; /* Altura original para pantallas más grandes, un poco más alta */
-            }
+ .map-container {
+    /* Elimina width: 100%; de aquí si ya estás controlando el ancho con el padre o un max-width */
+    height: 55vh; /* Para móviles */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    
+    /* Agrega un ancho máximo explícito para que no ocupe todo el espacio del "sap-card" */
+    /* y centra el contenedor del mapa */
+    max-width: 800px; /* Puedes ajustar este valor (ej: 700px, 900px, etc.) */
+    margin-left: auto; /* Para centrar */
+    margin-right: auto; /* Para centrar */
+}
+
+/* El map-iframe ya está bien con width: 100% y height: 100% dentro de su contenedor */
+.map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (min-width: 768px) {
+    .map-container {
+        height: 85vh; /* Altura para pantallas más grandes */
+        /* Si quieres un max-width diferente para desktop, lo puedes añadir aquí */
+    }
+}
         }
         .fullscreen-button {
             background-color: #6b7280; /* Botón gris */
