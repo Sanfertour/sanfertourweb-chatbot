@@ -4,13 +4,12 @@ const { TextServiceClient } = require('@google-ai/generativelanguage'); // <-- C
 
 // Inicializamos los clientes de las APIs de Google Cloud
 const visionClient = new ImageAnnotatorClient({
-    key: process.env.GOOGLE_CLOUD_API_KEY,
+    key: process.env.GOOGLE_API_KEY, // <-- CAMBIO AQUÍ
 });
 
-// CAMBIO AQUÍ: Inicializamos el cliente de Gemini con TextServiceClient
 const generativeLanguageClient = new TextServiceClient({
     authClient: new (require('google-auth-library').GoogleAuth)({
-        key: process.env.GOOGLE_CLOUD_API_KEY,
+        key: process.env.GOOGLE_API_KEY, // <-- Y CAMBIO AQUÍ
     }),
 });
 
