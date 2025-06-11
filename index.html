@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>More actions
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -365,9 +365,15 @@
 
     <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
         <div class="flex items-center max-w-4xl w-full p-4"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="" class="h-12 w-auto mr-4">
+ <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
+    <div class="flex items-center max-w-4xl w-full p-4">
+        <a href="/" class="flex items-center"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="Sanfertour Logo" class="h-12 w-auto mr-4">
             <h1 id="header-title" class="text-3xl font-bold text-red-600 tracking-tight">Sanfertour</h1>
         </div>
     </header>
+        </a>
+    </div>
+</header>
 
     <div id="app-container" class="relative w-full max-w-4xl mx-auto flex flex-col flex-grow p-4">
 
@@ -418,9 +424,9 @@
         <section id="code-entry-section" class="flex flex-col items-center justify-center flex-grow">
             <div class="sap-card text-center">
                 <p id="welcome-instruction" class="text-gray-700 text-lg mb-4 font-semibold"></p>
-                
+
                 <h1 id="form-title" class="text-4xl font-bold text-gray-800 mb-4"></h1>
-                
+
                 <p id="form-description" class="text-xl text-gray-600 mb-8"></p>
                 <form id="code-form" class="space-y-6">
                     <div>
@@ -440,7 +446,7 @@
             <div class="sap-card w-full max-w-4xl text-center mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4" id="map-title-es"></h2>
                 <p class="text-gray-700 mb-4" id="map-description-es"></p>
-                
+
                 <div class="legend-selector-container absolute">
                     <button id="legend-toggle-es" class="legend-toggle-button">
                         <i class="fas fa-info text-white"></i> </button>
@@ -560,7 +566,7 @@
                         <span id="chatbot-header-text-fr"></span>
                         <button id="chatbot-close-fr" class="text-white text-xl leading-none">&times;</button>
                     </div>
-                    <div id="chatbot-messages-fr" class="chatbot-messages flex flex-col">
+                    <div class="chatbot-messages flex flex-col">
                         <div class="chatbot-message bot"></div> </div>
                     <div class="chatbot-input-area">
                         <input type="text" id="chatbot-input-fr" class="chatbot-input" placeholder="">
@@ -696,7 +702,7 @@
                 mapDescription: "L'esperienza Gotour unica: a modo tuo, al tuo ritmo.",
                 legendToggle: "Legenda della Mappa",
                 legendGastro: "Guida gastronomica e vita notturna",
-                legendAudioguia: "Audioguida",
+                legendAudioguida: "Audioguida",
                 fullscreenButton: "Schermo intero",
                 chatbotHeaderText: "Chatbot di aiuto",
                 chatbotInputPlaceholder: "Scrivi il tuo messaggio...",
@@ -866,7 +872,7 @@
             ja: [],
             pt: []
         };
-        
+
         // Elementos del Chatbot en inglés
         const chatbotToggleEn = document.getElementById('chatbot-toggle-en');
         const chatbotPanelEn = document.getElementById('chatbot-panel-en');
@@ -1048,7 +1054,7 @@
                     } else if (result.urlRedireccion.includes('dashing-crisp')) { // NUEVO: Lógica para el mapa francés
                         mapLanguage = 'fr';
                     }
-                    
+
                     currentLang = mapLanguage; // Actualizar el idioma global
                     showMapSection(mapLanguage); // Mostrar la sección del mapa correspondiente
 
@@ -1086,6 +1092,21 @@
         });
 
         // --- Lógica del mapa y pantalla completa ---
+        // Función para detectar iOS
+        function isIOS() {
+            return [
+                    'iPad Simulator',
+                    'iPhone Simulator',
+                    'iPod Simulator',
+                    'iPad',
+                    'iPhone',
+                    'iPod'
+                ].includes(navigator.platform)
+                // iPad on iOS 13+ detection
+                || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+                ;
+        }
+
         function requestFullscreen(element) {
             if (element.requestFullscreen) {
                 element.requestFullscreen();
@@ -1099,15 +1120,27 @@
         }
 
         fullscreenEsMapButton.addEventListener('click', () => {
-            requestFullscreen(esMapIframe);
+            if (isIOS()) {
+                window.open(esMapIframe.src, '_blank'); // Abre en una nueva pestaña
+            } else {
+                requestFullscreen(esMapIframe); // Comportamiento actual para otros dispositivos
+            }
         });
 
         fullscreenEnMapButton.addEventListener('click', () => {
-            requestFullscreen(enMapIframe);
+            if (isIOS()) {
+                window.open(enMapIframe.src, '_blank');
+            } else {
+                requestFullscreen(enMapIframe);
+            }
         });
 
         fullscreenFrMapButton.addEventListener('click', () => { // NUEVO para francés
-            requestFullscreen(frMapIframe);
+            if (isIOS()) {
+                window.open(frMapIframe.src, '_blank');
+            } else {
+                requestFullscreen(frMapIframe);
+            }
         });
 
         // --- Lógica de Leyenda ---
@@ -1158,7 +1191,7 @@
 
             // --- CAMBIO CLAVE AQUÍ: Llama a tu función de Netlify, no directamente a Gemini ---
             const netlifyFunctionUrl = '/.netlify/functions/chatbot'; // Ajusta esta URL si tu función tiene otra ruta
-            
+
             try {
                 const payload = { contents: chatHistory };
                 const response = await fetch(netlifyFunctionUrl, { // Usa la URL de la función de Netlify
@@ -1269,7 +1302,6 @@
     </script>
 </body>
 </html>
-
 
     </script>
 </body>
