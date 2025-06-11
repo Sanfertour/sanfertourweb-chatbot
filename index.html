@@ -359,6 +359,99 @@
             0%, 80%, 100% { transform: scale(0); }
             40% { transform: scale(1); }
         }
+
+        /* AI Photo Guide Styles */
+        .ai-photo-container {
+            position: fixed;
+            bottom: 20px; /* Same bottom as chatbot */
+            right: 96px; /* 20px (chatbot right) + 60px (chatbot width) + 16px (gap) = 96px */
+            z-index: 100; /* Same z-index as chatbot */
+        }
+        .ai-photo-toggle-button {
+            background-color: #3b82f6; /* Blue for contrast */
+            color: #ffffff;
+            border-radius: 9999px; /* Full circle */
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            cursor: pointer;
+        }
+        .ai-photo-toggle-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+        }
+        .ai-photo-toggle-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .ai-photo-panel {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            width: 320px;
+            height: 500px; /* Increased height for content */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(10px); /* Slight initial displacement */
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s ease-out;
+            position: absolute;
+            bottom: 70px; /* Above the toggle button, aligned with chatbot panel */
+            right: 0;
+        }
+        .ai-photo-panel.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+        .ai-photo-header {
+            background-color: #3b82f6; /* Blue for header */
+            color: #ffffff;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .ai-photo-content {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background-color: #f0f2f5; /* Light gray background */
+            display: flex;
+            flex-direction: column;
+        }
+        .camera-preview-container {
+            width: 100%;
+            height: 180px; /* Fixed height for camera preview */
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        video#camera-preview {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        img#captured-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        #ai-response-area {
+            min-height: 80px; /* Minimum height for response area */
+            max-height: 120px; /* Maximum height for response area */
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -574,6 +667,43 @@
 
     </div>
 
+    <div class="ai-photo-container">
+        <button id="ai-photo-toggle" class="ai-photo-toggle-button">
+            <i class="fas fa-camera"></i>
+        </button>
+        <div id="ai-photo-panel" class="ai-photo-panel">
+            <div class="ai-photo-header">
+                <span id="ai-photo-header-text-es">Foto Guía IA</span>
+                <button id="ai-photo-close" class="text-white text-xl leading-none">&times;</button>
+            </div>
+            <div class="ai-photo-content">
+                <div id="ai-photo-messages" class="ai-photo-messages">
+                    <p id="ai-photo-initial-message" class="text-gray-700"></p>
+                </div>
+                <div class="camera-preview-container">
+                    <video id="camera-preview" class="w-full h-full object-cover rounded-lg shadow-inner" autoplay playsinline></video>
+                    <canvas id="photo-canvas" class="hidden"></canvas>
+                    <img id="captured-image" class="hidden w-full h-full object-contain rounded-lg shadow-md" alt="Captured Image">
+                </div>
+                <div class="flex flex-col items-center gap-2 mt-4">
+                    <button id="capture-photo-button" class="sap-button w-full"><i class="fas fa-camera mr-2"></i> Tomar Foto</button>
+                    <button id="retake-photo-button" class="sap-button bg-gray-500 hover:bg-gray-600 w-full hidden"><i class="fas fa-redo mr-2"></i> Volver a Tomar</button>
+                </div>
+                <div id="geolocation-info" class="text-sm text-gray-600 mt-4 text-center">
+                    <p id="geo-status"></p>
+                    <p id="geo-coords"></p>
+                </div>
+                <div id="ai-response-area" class="mt-4 p-3 bg-gray-100 rounded-lg text-gray-800 text-sm overflow-y-auto max-h-40">
+                    <p id="ai-response-text"></p>
+                    <div id="ai-loading-indicator" class="hidden flex items-center justify-center mt-2 text-gray-500">
+                        <i class="fas fa-spinner fa-spin mr-2"></i> <span id="ai-loading-text">Analizando imagen...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <footer class="footer">
         <p id="copyright-text">&copy; 2025 Fotoquest Pamplona. Todos los derechos reservados. Prohibida su descarga, reproducción o uso no autorizado.</p>
     </footer>
@@ -604,6 +734,14 @@
                 chatbotInputPlaceholder: "Escribe tu mensaje...",
                 chatbotInitialMessage: "¡Hola! Soy tu guía de Sanfertour. Pregúntame sobre los lugares de interés, historia, gastronomía y cultura de Pamplona. ✨",
                 chatbotErrorMessage: "Lo siento, hubo un error al obtener la respuesta. Por favor, inténtalo de nuevo.",
+                aiPhotoHeaderText: "Foto Guía IA",
+                aiPhotoInitialMessage: "Toma una foto del monumento para obtener información guiada por IA.",
+                capturePhotoButton: "Tomar Foto",
+                retakePhotoButton: "Volver a Tomar",
+                geoStatusLoading: "Obteniendo ubicación...",
+                geoStatusError: "No se pudo obtener la ubicación. Por favor, habilita los servicios de ubicación.",
+                analyzingImage: "Analizando imagen...",
+                aiResponseError: "Lo siento, hubo un error al analizar la imagen. Por favor, inténtalo de nuevo.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Todos los derechos reservados. Prohibida su descarga, reproducción o uso no autorizado."
             },
             en: {
@@ -629,6 +767,14 @@
                 chatbotInputPlaceholder: "Type your message...",
                 chatbotInitialMessage: "Hi! I'm your Sanfertour guide. Ask me about Pamplona's sights, history, gastronomy, and culture. ✨",
                 chatbotErrorMessage: "Sorry, there was an error getting the response. Please try again.",
+                aiPhotoHeaderText: "AI Photo Guide",
+                aiPhotoInitialMessage: "Take a photo of the monument to get AI-guided information.",
+                capturePhotoButton: "Take Photo",
+                retakePhotoButton: "Retake Photo",
+                geoStatusLoading: "Getting location...",
+                geoStatusError: "Could not get location. Please enable location services.",
+                analyzingImage: "Analyzing image...",
+                aiResponseError: "Sorry, there was an error analyzing the image. Please try again.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. All rights reserved. Downloading, reproduction, or unauthorized use is prohibited."
             },
             fr: {
@@ -654,6 +800,14 @@
                 chatbotInputPlaceholder: "Écrivez votre message...",
                 chatbotInitialMessage: "Bonjour ! Je suis votre guide Sanfertour. Posez-moi des questions sur les sites, l'histoire, la gastronomie et la culture de Pampelune. ✨",
                 chatbotErrorMessage: "Désolé, une erreur s'est produite lors de la récupération de la réponse. Veuillez réessayer.",
+                aiPhotoHeaderText: "Guide Photo IA",
+                aiPhotoInitialMessage: "Prenez une photo du monument pour obtenir des informations guidées par l'IA.",
+                capturePhotoButton: "Prendre une photo",
+                retakePhotoButton: "Reprendre la photo",
+                geoStatusLoading: "Obtention de la localisation...",
+                geoStatusError: "Impossible d'obtenir la localisation. Veuillez activer les services de localisation.",
+                analyzingImage: "Analyse de l'image...",
+                aiResponseError: "Désolé, une erreur s'est produite lors de l'analyse de l'image. Veuillez réessayer.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Tous droits réservés. Téléchargement, reproduction ou utilisation non autorisée interdits."
             },
             de: {
@@ -679,6 +833,14 @@
                 chatbotInputPlaceholder: "Geben Sie Ihre Nachricht ein...",
                 chatbotInitialMessage: "Hallo! Ich bin Ihr Sanfertour-Guide. Fragen Sie mich nach den Sehenswürdigkeiten, der Geschichte, der Gastronomie und der Kultur Pamplonas. ✨",
                 chatbotErrorMessage: "Entschuldigung, beim Abrufen der Antwort ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+                aiPhotoHeaderText: "KI-Fotoführer",
+                aiPhotoInitialMessage: "Machen Sie ein Foto des Denkmals, um KI-geführte Informationen zu erhalten.",
+                capturePhotoButton: "Foto aufnehmen",
+                retakePhotoButton: "Foto erneut aufnehmen",
+                geoStatusLoading: "Standort wird abgerufen...",
+                geoStatusError: "Standort konnte nicht abgerufen werden. Bitte aktivieren Sie die Standortdienste.",
+                analyzingImage: "Bild wird analysiert...",
+                aiResponseError: "Entschuldigung, beim Analysieren des Bildes ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Alle Rechte vorbehalten. Herunterladen, Reproduktion oder unbefugte Nutzung ist untersagt."
             },
             it: {
@@ -704,6 +866,14 @@
                 chatbotInputPlaceholder: "Scrivi il tuo messaggio...",
                 chatbotInitialMessage: "Ciao! Sono la tua guida Sanfertour. Chiedimi informazioni sui luoghi d'interesse, la storia, la gastronomia e la cultura di Pamplona. ✨",
                 chatbotErrorMessage: "Siamo spiacenti, si è verificato un errore durante il recupero della risposta. Riprova.",
+                aiPhotoHeaderText: "Guida fotografica IA",
+                aiPhotoInitialMessage: "Scatta una foto del monumento per ottenere informazioni guidate dall'IA.",
+                capturePhotoButton: "Scatta foto",
+                retakePhotoButton: "Riscatti foto",
+                geoStatusLoading: "Recupero posizione...",
+                geoStatusError: "Impossibile ottenere la posizione. Si prega di abilitare i servizi di localizzazione.",
+                analyzingImage: "Analizzando l'immagine...",
+                aiResponseError: "Siamo spiacenti, si è verificato un errore durante l'analisi dell'immagine. Riprova.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Tutti i diritti riservati. Download, riproduzione o utilizzo non autorizzato sono proibiti."
             },
             zh: {
@@ -729,6 +899,14 @@
                 chatbotInputPlaceholder: "输入您的消息...",
                 chatbotInitialMessage: "你好！我是你的Sanfertour向导。向我询问潘普洛纳的景点、历史、美食和文化。✨",
                 chatbotErrorMessage: "抱歉，获取回复时出错。请重试。",
+                aiPhotoHeaderText: "AI照片指南",
+                aiPhotoInitialMessage: "拍摄纪念碑的照片以获取AI指导信息。",
+                capturePhotoButton: "拍照",
+                retakePhotoButton: "重拍",
+                geoStatusLoading: "正在获取位置...",
+                geoStatusError: "无法获取位置。请启用位置服务。",
+                analyzingImage: "正在分析图像...",
+                aiResponseError: "抱歉，分析图像时出错。请重试。",
                 copyright: "&copy; 2025 Fotoquest Pamplona. 保留所有权利。禁止下载、复制或未经授权的使用。"
             },
             eu: {
@@ -754,6 +932,14 @@
                 chatbotInputPlaceholder: "Idatzi zure mezua...",
                 chatbotInitialMessage: "Kaixo! Zure Sanfertour-eko gida naiz. Galdetu Iruñeko interesgune, historia, gastronomia eta kulturari buruz. ✨",
                 chatbotErrorMessage: "Barkatu, akats bat gertatu da erantzuna lortzean. Mesedez, saiatu berriro.",
+                aiPhotoHeaderText: "AI Argazki Gida",
+                aiPhotoInitialMessage: "Hartu monumentuaren argazki bat AI bidez gidatutako informazioa lortzeko.",
+                capturePhotoButton: "Argazkia atera",
+                retakePhotoButton: "Berriro atera",
+                geoStatusLoading: "Kokapena lortzen...",
+                geoStatusError: "Ezin izan da kokapena lortu. Mesedez, gaitu kokapen zerbitzuak.",
+                analyzingImage: "Irudia analizatzen...",
+                aiResponseError: "Barkatu, akats bat gertatu da irudia analizatzean. Mesedez, saiatu berriro.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Eskubide guztiak erreserbatuta. Debekatuta dago deskargatzea, erreproduzitzea edo baimenik gabe erabiltzea."
             },
             ja: {
@@ -779,6 +965,14 @@
                 chatbotInputPlaceholder: "メッセージを入力してください...",
                 chatbotInitialMessage: "こんにちは！サンフェルツアーガイドです。パンプローナの見どころ、歴史、美食、文化についてお尋ねください。✨",
                 chatbotErrorMessage: "申し訳ありません、応答の取得中にエラーが発生しました。もう一度お試しください。",
+                aiPhotoHeaderText: "AI写真ガイド",
+                aiPhotoInitialMessage: "記念碑の写真を撮って、AIが案内する情報を入手してください。",
+                capturePhotoButton: "写真を撮る",
+                retakePhotoButton: "撮り直す",
+                geoStatusLoading: "位置情報を取得中...",
+                geoStatusError: "位置情報を取得できませんでした。位置情報サービスを有効にしてください。",
+                analyzingImage: "画像を分析中...",
+                aiResponseError: "申し訳ありません、画像の分析中にエラーが発生しました。もう一度お試しください。",
                 copyright: "&copy; 2025 Fotoquest Pamplona. 全著作権所有。ダウンロード、複製、無断使用は禁止されています。"
             },
             pt: {
@@ -804,6 +998,14 @@
                 chatbotInputPlaceholder: "Escreva sua mensagem...",
                 chatbotInitialMessage: "Olá! Sou seu guia Sanfertour. Pergunte-me sobre os pontos turísticos, história, gastronomia e cultura de Pamplona. ✨",
                 chatbotErrorMessage: "Desculpe, houve um erro ao obter a resposta. Por favor, tente novamente.",
+                aiPhotoHeaderText: "Guia de Fotos IA",
+                aiPhotoInitialMessage: "Tire uma foto do monumento para obter informações guiadas por IA.",
+                capturePhotoButton: "Tirar Foto",
+                retakePhotoButton: "Retirar Foto",
+                geoStatusLoading: "Obtendo localização...",
+                geoStatusError: "Não foi possível obter a localização. Por favor, ative os serviços de localização.",
+                analyzingImage: "Analisando imagem...",
+                aiResponseError: "Desculpe, houve um erro ao analisar a imagem. Por favor, tente novamente.",
                 copyright: "&copy; 2025 Fotoquest Pamplona. Todos os direitos reservados. Proibido download, reprodução ou uso não autorizado."
             }
         };
@@ -887,6 +1089,30 @@
         const chatbotInputFr = document.getElementById('chatbot-input-fr');
         const chatbotSendFr = document.getElementById('chatbot-send-fr');
 
+        // Elementos de la Foto Guía IA
+        const aiPhotoToggle = document.getElementById('ai-photo-toggle');
+        const aiPhotoPanel = document.getElementById('ai-photo-panel');
+        const aiPhotoClose = document.getElementById('ai-photo-close');
+        const aiPhotoHeaderText = document.getElementById('ai-photo-header-text-es'); // Assuming Spanish for now, will handle translations
+        const aiPhotoMessages = document.getElementById('ai-photo-messages');
+        const aiPhotoInitialMessage = document.getElementById('ai-photo-initial-message');
+        const cameraPreview = document.getElementById('camera-preview');
+        const photoCanvas = document.getElementById('photo-canvas');
+        const capturedImage = document.getElementById('captured-image');
+        const capturePhotoButton = document.getElementById('capture-photo-button');
+        const retakePhotoButton = document.getElementById('retake-photo-button');
+        const geolocationInfo = document.getElementById('geolocation-info');
+        const geoStatus = document.getElementById('geo-status');
+        const geoCoords = document.getElementById('geo-coords');
+        const aiResponseArea = document.getElementById('ai-response-area');
+        const aiResponseText = document.getElementById('ai-response-text');
+        const aiLoadingIndicator = document.getElementById('ai-loading-indicator');
+        const aiLoadingText = document.getElementById('ai-loading-text');
+
+        let currentStream; // To store camera stream
+        let currentLatitude, currentLongitude; // To store geolocation
+
+
         // --- Funciones de utilidad ---
         function updateContent(lang) {
             const t = translations[lang];
@@ -937,6 +1163,13 @@
                 chatbotSendFr.textContent = "Envoyer"; // Cambiado a "Envoyer" para francés
             }
             // Añadir más bloques else if para otros idiomas si tienen elementos específicos en el HTML
+
+            // Update AI Photo Guide texts
+            if (aiPhotoHeaderText) aiPhotoHeaderText.textContent = t.aiPhotoHeaderText;
+            if (aiPhotoInitialMessage) aiPhotoInitialMessage.textContent = t.aiPhotoInitialMessage;
+            if (capturePhotoButton) capturePhotoButton.querySelector('i').nextSibling.textContent = ' ' + t.capturePhotoButton;
+            if (retakePhotoButton) retakePhotoButton.querySelector('i').nextSibling.textContent = ' ' + t.retakePhotoButton;
+            if (aiLoadingText) aiLoadingText.textContent = t.analyzingImage;
         }
 
         // Función para mostrar la sección del mapa correcta y ocultar las otras
@@ -985,6 +1218,23 @@
             }
             if (legendDropdownFr && legendDropdownFr.classList.contains('active') && !legendToggleFr.contains(event.target) && !legendDropdownFr.contains(event.target)) {
                 legendDropdownFr.classList.remove('active');
+            }
+
+            // Close chatbot panels if clicked outside
+            if (chatbotPanelEs && chatbotPanelEs.classList.contains('active') && !chatbotPanelEs.contains(event.target) && !chatbotToggleEs.contains(event.target)) {
+                chatbotPanelEs.classList.remove('active');
+            }
+            if (chatbotPanelEn && chatbotPanelEn.classList.contains('active') && !chatbotPanelEn.contains(event.target) && !chatbotToggleEn.contains(event.target)) {
+                chatbotPanelEn.classList.remove('active');
+            }
+            if (chatbotPanelFr && chatbotPanelFr.classList.contains('active') && !chatbotPanelFr.contains(event.target) && !chatbotToggleFr.contains(event.target)) {
+                chatbotPanelFr.classList.remove('active');
+            }
+            
+            // Close AI photo panel if clicked outside
+            if (aiPhotoPanel && aiPhotoPanel.classList.contains('active') && !aiPhotoPanel.contains(event.target) && !aiPhotoToggle.contains(event.target)) {
+                aiPhotoPanel.classList.remove('active');
+                stopCamera(); // Also stop camera when closing from outside click
             }
         });
 
@@ -1250,6 +1500,7 @@
         if (chatbotToggleEs) {
             chatbotToggleEs.addEventListener('click', () => {
                 chatbotPanelEs.classList.toggle('active');
+                if (aiPhotoPanel) aiPhotoPanel.classList.remove('active'); // Close AI panel
                 if (chatbotPanelEs.classList.contains('active') && chatHistories['es'].length === 0) {
                     initializeChatbot('es', chatbotMessagesEs, chatbotInputEs, chatbotSendEs);
                 }
@@ -1262,6 +1513,7 @@
         if (chatbotToggleEn) {
             chatbotToggleEn.addEventListener('click', () => {
                 chatbotPanelEn.classList.toggle('active');
+                if (aiPhotoPanel) aiPhotoPanel.classList.remove('active'); // Close AI panel
                 if (chatbotPanelEn.classList.contains('active') && chatHistories['en'].length === 0) {
                     initializeChatbot('en', chatbotMessagesEn, chatbotInputEn, chatbotSendEn);
                 }
@@ -1274,6 +1526,7 @@
         if (chatbotToggleFr) {
             chatbotToggleFr.addEventListener('click', () => {
                 chatbotPanelFr.classList.toggle('active');
+                if (aiPhotoPanel) aiPhotoPanel.classList.remove('active'); // Close AI panel
                 if (chatbotPanelFr.classList.contains('active') && chatHistories['fr'].length === 0) {
                     initializeChatbot('fr', chatbotMessagesFr, chatbotInputFr, chatbotSendFr);
                 }
@@ -1282,6 +1535,174 @@
                 chatbotPanelFr.classList.remove('active');
             });
         }
+
+        // New AI Photo Guide toggle
+        if (aiPhotoToggle) {
+            aiPhotoToggle.addEventListener('click', () => {
+                aiPhotoPanel.classList.toggle('active');
+                // Close all chatbot panels
+                if (chatbotPanelEs) chatbotPanelEs.classList.remove('active');
+                if (chatbotPanelEn) chatbotPanelEn.classList.remove('active');
+                if (chatbotPanelFr) chatbotPanelFr.classList.remove('active');
+
+                if (aiPhotoPanel.classList.contains('active')) {
+                    startCamera(); // Start camera when panel opens
+                    getGeolocation(); // Try to get geolocation when panel opens
+                } else {
+                    stopCamera(); // Stop camera when panel closes
+                }
+            });
+            aiPhotoClose.addEventListener('click', () => {
+                aiPhotoPanel.classList.remove('active');
+                stopCamera(); // Stop camera when panel closes
+            });
+        }
+
+        async function startCamera() {
+            try {
+                // Hide any previous image
+                capturedImage.classList.add('hidden');
+                cameraPreview.classList.remove('hidden');
+                retakePhotoButton.classList.add('hidden');
+                capturePhotoButton.classList.remove('hidden');
+                aiResponseText.textContent = ''; // Clear previous AI response
+                aiResponseArea.classList.add('hidden'); // Hide AI response area initially
+
+                aiPhotoInitialMessage.textContent = translations[currentLang].aiPhotoInitialMessage; // Reset initial message
+                aiPhotoMessages.classList.remove('hidden'); // Ensure messages are visible
+
+                // Request camera permission
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } }); // Prefer rear camera
+                cameraPreview.srcObject = stream;
+                currentStream = stream;
+            } catch (err) {
+                console.error("Error accessing camera: ", err);
+                aiPhotoInitialMessage.textContent = "Error al acceder a la cámara. Por favor, asegúrate de que tienes una cámara y has dado permiso.";
+                aiPhotoMessages.classList.remove('hidden');
+            }
+        }
+
+        function stopCamera() {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                cameraPreview.srcObject = null;
+            }
+        }
+
+        capturePhotoButton.addEventListener('click', () => {
+            if (currentStream) {
+                const context = photoCanvas.getContext('2d');
+                photoCanvas.width = cameraPreview.videoWidth;
+                photoCanvas.height = cameraPreview.videoHeight;
+                context.drawImage(cameraPreview, 0, 0, photoCanvas.width, photoCanvas.height);
+                
+                const imageDataUrl = photoCanvas.toDataURL('image/jpeg', 0.9); // Get image as JPEG base64
+                capturedImage.src = imageDataUrl;
+                capturedImage.classList.remove('hidden');
+                cameraPreview.classList.add('hidden');
+
+                capturePhotoButton.classList.add('hidden');
+                retakePhotoButton.classList.remove('hidden');
+
+                stopCamera(); // Stop camera after capture
+                sendPhotoToAI(imageDataUrl);
+            }
+        });
+
+        retakePhotoButton.addEventListener('click', () => {
+            capturedImage.classList.add('hidden');
+            cameraPreview.classList.remove('hidden');
+            retakePhotoButton.classList.add('hidden');
+            capturePhotoButton.classList.remove('hidden');
+            aiResponseText.textContent = ''; // Clear previous AI response
+            aiResponseArea.classList.add('hidden'); // Hide AI response area
+            startCamera(); // Restart camera
+        });
+
+        function getGeolocation() {
+            return new Promise((resolve, reject) => {
+                if ("geolocation" in navigator) {
+                    geoStatus.textContent = translations[currentLang].geoStatusLoading;
+                    geoCoords.textContent = '';
+                    geolocationInfo.classList.remove('hidden');
+
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            currentLatitude = position.coords.latitude;
+                            currentLongitude = position.coords.longitude;
+                            geoStatus.textContent = "Ubicación obtenida:";
+                            geoCoords.textContent = `Lat: ${currentLatitude.toFixed(6)}, Lon: ${currentLongitude.toFixed(6)}`;
+                            resolve({ lat: currentLatitude, lon: currentLongitude });
+                        },
+                        (error) => {
+                            console.error("Error getting geolocation: ", error);
+                            geoStatus.textContent = translations[currentLang].geoStatusError;
+                            geoCoords.textContent = '';
+                            currentLatitude = null;
+                            currentLongitude = null;
+                            reject(error);
+                        },
+                        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+                    );
+                } else {
+                    geoStatus.textContent = "Geolocalización no soportada por este navegador.";
+                    geoCoords.textContent = '';
+                    geolocationInfo.classList.remove('hidden');
+                    reject(new Error("Geolocation not supported."));
+                }
+            });
+        }
+
+        async function sendPhotoToAI(imageDataUrl) {
+            aiResponseText.textContent = ''; // Clear previous response
+            aiResponseArea.classList.remove('hidden'); // Ensure response area is visible
+            aiLoadingIndicator.classList.remove('hidden');
+            aiLoadingText.textContent = translations[currentLang].analyzingImage;
+
+            let geolocationData = null;
+            try {
+                geolocationData = await getGeolocation();
+            } catch (geoError) {
+                console.warn("Could not get geolocation, proceeding without it:", geoError);
+                // Optionally inform user that location is not available but photo will still be analyzed
+            }
+
+            // Remove 'data:image/jpeg;base64,' prefix for sending
+            const base64Image = imageDataUrl.split(',')[1];
+            
+            const netlifyFunctionUrl = '/.netlify/functions/analyze-photo-ai'; // Your Netlify Function URL
+
+            try {
+                const payload = {
+                    image: base64Image,
+                    location: geolocationData ? { lat: geolocationData.lat, lon: geolocationData.lon } : null,
+                    lang: currentLang // Send current language for localized response if function supports it
+                };
+
+                const response = await fetch(netlifyFunctionUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                aiLoadingIndicator.classList.add('hidden');
+
+                if (result && result.response) {
+                    aiResponseText.textContent = result.response;
+                } else if (result && result.error) {
+                    aiResponseText.textContent = `Error: ${result.error}`;
+                } else {
+                    aiResponseText.textContent = translations[currentLang].aiResponseError;
+                }
+            } catch (error) {
+                console.error("Error sending photo to AI function:", error);
+                aiLoadingIndicator.classList.add('hidden');
+                aiResponseText.textContent = translations[currentLang].aiResponseError + ` (${error.message})`;
+            }
+        }
+
 
         // Inicializar el contenido al cargar la página
         document.addEventListener('DOMContentLoaded', () => {
@@ -1294,10 +1715,6 @@
             }
             updateContent(currentLang);
         });
-
-    </script>
-</body>
-</html>
 
     </script>
 </body>
