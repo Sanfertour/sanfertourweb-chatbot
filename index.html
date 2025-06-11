@@ -175,24 +175,37 @@
         .legend-item i {
             font-size: 1.2rem; /* Tamaño del icono */
         }
-        .map-container {
-            width: 100%;
-            height: 55vh; /* Ligeramente más alto para mejor visualización */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e2e8f0;
-        }
-        .map-iframe {
-            width: 100%;
-            height: 100%; /* Asegura que el iframe llene su contenedor */
-            border: none; /* Elimina el borde por defecto del iframe */
-        }
-        @media (min-width: 768px) { /* Punto de interrupción md */
-            .map-container {
-                height: 85vh; /* Altura original para pantallas más grandes, un poco más alta */
-            }
-        }
+/* Estilos generales para el contenedor del mapa */
+.map-container {
+    width: 90%; /* Reducimos el ancho en móviles para dejar un poco de margen */
+    max-width: 500px; /* Limitamos el ancho máximo en cualquier dispositivo */
+    height: 60vh; /* Aumentamos ligeramente la altura para una mejor visualización en móviles, pero sin ser excesiva */
+    aspect-ratio: 4/3; /* Esto fuerza una relación de aspecto 4:3 para que no se vea desproporcionado */
+                        /* Si prefieres 16:9, usa aspect-ratio: 16/9; */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e2e8f0;
+    margin: 20px auto; /* Centra el contenedor horizontalmente y le da un margen superior/inferior */
+}
+
+/* Estilos para el iframe dentro del contenedor */
+.map-iframe {
+    width: 100%;
+    height: 100%; /* Asegura que el iframe llene su contenedor */
+    border: none; /* Elimina el borde por defecto del iframe */
+}
+
+/* Punto de interrupción para pantallas más grandes (tablets y desktop) */
+@media (min-width: 768px) {
+    .map-container {
+        width: 80%; /* Ocupa más ancho en pantallas más grandes */
+        max-width: 900px; /* Aumentamos el ancho máximo para desktop */
+        height: 70vh; /* Ajustamos la altura para pantallas más grandes, manteniendo una buena visualización */
+        /* Si usas aspect-ratio arriba, puedes omitir height aquí si quieres que mantenga el mismo ratio */
+        /* Si quieres un ratio diferente para desktop, puedes especificarlo aquí: aspect-ratio: 16/9; */
+    }
+}
         .fullscreen-button {
             background-color: #6b7280; /* Botón gris */
             color: #ffffff;
