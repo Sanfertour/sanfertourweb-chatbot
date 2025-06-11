@@ -55,11 +55,11 @@
         }
         /* Estilos específicos del selector de idioma */
       .language-selector-container {
-    position: absolute; /* Aseguramos que sea posicionado absolutamente */
-    top: 4px;            /* Fija a 4px del borde superior de su padre posicionado */
-    right: 4px;          /* Fija a 4px del borde derecho de su padre posicionado */
-    z-index: 10;
-}
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            z-index: 10;
+        }
         .language-toggle-button { /* Estilo específico para el botón del globo */
             background-color: #A00000; /* Rojo más oscuro para el contraste */
             color: #ffffff;
@@ -119,11 +119,11 @@
 
         /* Estilos específicos del selector de leyenda */
         .legend-selector-container {
-            position: absolute; /* Cambiado de relative a absolute para posicionamiento simétrico */
-            z-index: 9; /* Z-index inferior al selector de idioma */
-            top: 4px; /* Simétrico al botón de idioma */
-            left: 4px; /* Alineado a la izquierda */
-            right: auto; /* Deshabilitar alineación a la derecha */
+            position: absolute;
+            z-index: 9;
+            top: 4px;
+            left: 4px;
+            right: auto;
         }
         .legend-toggle-button {
             background-color: #6b7280; /* Botón gris */
@@ -175,35 +175,32 @@
         .legend-item i {
             font-size: 1.2rem; /* Tamaño del icono */
         }
- .map-container {
-    /* Elimina width: 100%; de aquí si ya estás controlando el ancho con el padre o un max-width */
-    height: 55vh; /* Para móviles */
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
-    
-    /* Agrega un ancho máximo explícito para que no ocupe todo el espacio del "sap-card" */
-    /* y centra el contenedor del mapa */
-    max-width: 800px; /* Puedes ajustar este valor (ej: 700px, 900px, etc.) */
-    margin-left: auto; /* Para centrar */
-    margin-right: auto; /* Para centrar */
-}
 
-/* El map-iframe ya está bien con width: 100% y height: 100% dentro de su contenedor */
-.map-iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-@media (min-width: 768px) {
-    .map-container {
-        height: 85vh; /* Altura para pantallas más grandes */
-        /* Si quieres un max-width diferente para desktop, lo puedes añadir aquí */
-    }
-}
+        /* *** MODIFICACIONES PARA EL TAMAÑO DEL MAPA Y MÓVILES *** */
+        .map-container {
+            width: 100%; /* Ocupa el 100% del ancho de su padre (el sap-card) */
+            height: 55vh; /* Altura para móviles */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            /* El max-width y los márgenes automáticos centrarán el mapa en pantallas grandes */
+            max-width: 800px; /* Ancho máximo para que no se vea desproporcionado en desktop */
+            margin-left: auto;
+            margin-right: auto;
         }
+        .map-iframe {
+            width: 100%;
+            height: 100%; /* Asegura que el iframe llene su contenedor */
+            border: none;
+        }
+        @media (min-width: 768px) { /* Punto de interrupción md */
+            .map-container {
+                height: 85vh; /* Altura original para pantallas más grandes */
+            }
+        }
+        /* *** FIN MODIFICACIONES TAMAÑO MAPA *** */
+
         .fullscreen-button {
             background-color: #6b7280; /* Botón gris */
             color: #ffffff;
@@ -212,6 +209,9 @@
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            /* Aseguramos que el botón no sea demasiado ancho en móviles */
+            font-size: 0.9rem; /* Un poco más pequeño para móviles */
+            white-space: nowrap; /* Evita que el texto se rompa */
         }
         .fullscreen-button:hover {
             background-color: #4b5563; /* Gris más oscuro al pasar el ratón */
@@ -248,7 +248,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 100; /* Asegura que esté por encima de otro contenido */
+            z-index: 100;
         }
         .chatbot-toggle-button {
             background-color: #ef4444; /* Rojo San Fermín */
@@ -684,7 +684,7 @@
                 mapDescription: "Das einzigartige Gotour-Erlebnis: auf Ihre Weise, in Ihrem Tempo.",
                 legendToggle: "Kartenlegende",
                 legendGastro: "Gastronomie- und Nachtlebenführer",
-                legendAudioguia: "Audioguide",
+                legendAudioguide: "Audioguide",
                 fullscreenButton: "Vollbild",
                 chatbotHeaderText: "Hilfe-Chatbot",
                 chatbotInputPlaceholder: "Geben Sie Ihre Nachricht ein...",
@@ -937,7 +937,7 @@
                 chatbotHeaderTextEn.textContent = t.chatbotHeaderText;
                 chatbotInputEn.placeholder = t.chatbotInputPlaceholder;
                 chatbotSendEn.textContent = "Send"; // Cambiado a "Send" para inglés
-            } else if (lang === 'fr') {
+            } else if (lang === 'fr') { // Actualizar para francés
                 document.getElementById('map-title-fr').textContent = t.mapTitle;
                 document.getElementById('map-description-fr').textContent = t.mapDescription;
                 document.getElementById('legend-gastro-fr').textContent = t.legendGastro;
@@ -953,20 +953,22 @@
         // Función para mostrar la sección del mapa correcta y ocultar las otras
         function showMapSection(lang) {
             codeEntrySection.classList.add('hidden');
-            esMapSection.classList.remove('flex'); // Asegurarse de quitar flex para ocultar correctamente
+            // Ocultar todas las secciones de mapa
+            esMapSection.classList.remove('flex');
             esMapSection.classList.add('hidden');
             enMapSection.classList.remove('flex');
             enMapSection.classList.add('hidden');
-            frMapSection.classList.remove('flex'); // Ocultar también la sección de francés
+            frMapSection.classList.remove('flex');
             frMapSection.classList.add('hidden');
 
+            // Mostrar solo la sección del idioma seleccionado
             if (lang === 'es') {
                 esMapSection.classList.remove('hidden');
                 esMapSection.classList.add('flex');
             } else if (lang === 'en') {
                 enMapSection.classList.remove('hidden');
                 enMapSection.classList.add('flex');
-            } else if (lang === 'fr') { // Mostrar la sección de francés
+            } else if (lang === 'fr') {
                 frMapSection.classList.remove('hidden');
                 frMapSection.classList.add('flex');
             }
@@ -1028,7 +1030,7 @@
         const codeForm = document.getElementById('code-form');
 
         // IMPORTANTE: Esta es la URL de tu Google App Script que maneja el doPost
-        const APP_SCRIPT_VALIDATION_URL = 'https://script.google.com/macros/s/AKfycbzUyJfJtItPTqhueAFuK3ltfbuYK4hSE8nXO5Hv6EkfiMajmLSSv0HuUrMadW5-diBabA/exec';
+        const APP_SCRIPT_VALIDATION_URL = 'https://script.google.com/macros/s/AKfycbzUyJfTItPTqhueAFuK3ltfbuYK4hSE8nXO5Hv6EkfiMajmLSSv0HuUrMadW5-diBabA/exec'; // Asegúrate de que esta URL sea correcta
 
         codeForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1305,10 +1307,6 @@
             }
             updateContent(currentLang);
         });
-
-    </script>
-</body>
-</html>
 
     </script>
 </body>
