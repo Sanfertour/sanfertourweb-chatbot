@@ -55,11 +55,11 @@
         }
         /* Estilos específicos del selector de idioma */
       .language-selector-container {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            z-index: 10;
-        }
+    position: absolute; /* Aseguramos que sea posicionado absolutamente */
+    top: 4px;            /* Fija a 4px del borde superior de su padre posicionado */
+    right: 4px;          /* Fija a 4px del borde derecho de su padre posicionado */
+    z-index: 10;
+}
         .language-toggle-button { /* Estilo específico para el botón del globo */
             background-color: #A00000; /* Rojo más oscuro para el contraste */
             color: #ffffff;
@@ -119,11 +119,11 @@
 
         /* Estilos específicos del selector de leyenda */
         .legend-selector-container {
-            position: absolute;
-            z-index: 9;
-            top: 4px;
-            left: 4px;
-            right: auto;
+            position: absolute; /* Cambiado de relative a absolute para posicionamiento simétrico */
+            z-index: 9; /* Z-index inferior al selector de idioma */
+            top: 4px; /* Simétrico al botón de idioma */
+            left: 4px; /* Alineado a la izquierda */
+            right: auto; /* Deshabilitar alineación a la derecha */
         }
         .legend-toggle-button {
             background-color: #6b7280; /* Botón gris */
@@ -175,32 +175,24 @@
         .legend-item i {
             font-size: 1.2rem; /* Tamaño del icono */
         }
-
-        /* *** MODIFICACIONES PARA EL TAMAÑO DEL MAPA Y MÓVILES *** */
         .map-container {
-            width: 100%; /* Ocupa el 100% del ancho de su padre (el sap-card) */
-            height: 55vh; /* Altura para móviles */
+            width: 100%;
+            height: 55vh; /* Ligeramente más alto para mejor visualización */
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border: 1px solid #e2e8f0;
-            /* El max-width y los márgenes automáticos centrarán el mapa en pantallas grandes */
-            max-width: 800px; /* Ancho máximo para que no se vea desproporcionado en desktop */
-            margin-left: auto;
-            margin-right: auto;
         }
         .map-iframe {
             width: 100%;
             height: 100%; /* Asegura que el iframe llene su contenedor */
-            border: none;
+            border: none; /* Elimina el borde por defecto del iframe */
         }
         @media (min-width: 768px) { /* Punto de interrupción md */
             .map-container {
-                height: 85vh; /* Altura original para pantallas más grandes */
+                height: 85vh; /* Altura original para pantallas más grandes, un poco más alta */
             }
         }
-        /* *** FIN MODIFICACIONES TAMAÑO MAPA *** */
-
         .fullscreen-button {
             background-color: #6b7280; /* Botón gris */
             color: #ffffff;
@@ -209,9 +201,6 @@
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            /* Aseguramos que el botón no sea demasiado ancho en móviles */
-            font-size: 0.9rem; /* Un poco más pequeño para móviles */
-            white-space: nowrap; /* Evita que el texto se rompa */
         }
         .fullscreen-button:hover {
             background-color: #4b5563; /* Gris más oscuro al pasar el ratón */
@@ -248,7 +237,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            z-index: 100;
+            z-index: 100; /* Asegura que esté por encima de otro contenido */
         }
         .chatbot-toggle-button {
             background-color: #ef4444; /* Rojo San Fermín */
@@ -374,13 +363,11 @@
 </head>
 <body class="flex flex-col min-h-screen">
 
- <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
-    <div class="flex items-center max-w-4xl w-full p-4">
-        <a href="/" class="flex items-center"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="Sanfertour Logo" class="h-12 w-auto mr-4">
+    <header class="fixed top-0 left-0 w-full shadow-md z-20 header-background">
+        <div class="flex items-center max-w-4xl w-full p-4"> <img id="header-logo" src="https://i.imgur.com/zN8CIl3.jpg" alt="" class="h-12 w-auto mr-4">
             <h1 id="header-title" class="text-3xl font-bold text-red-600 tracking-tight">Sanfertour</h1>
-        </a>
-    </div>
-</header>
+        </div>
+    </header>
 
     <div id="app-container" class="relative w-full max-w-4xl mx-auto flex flex-col flex-grow p-4">
 
@@ -573,7 +560,7 @@
                         <span id="chatbot-header-text-fr"></span>
                         <button id="chatbot-close-fr" class="text-white text-xl leading-none">&times;</button>
                     </div>
-                    <div class="chatbot-messages flex flex-col">
+                    <div id="chatbot-messages-fr" class="chatbot-messages flex flex-col">
                         <div class="chatbot-message bot"></div> </div>
                     <div class="chatbot-input-area">
                         <input type="text" id="chatbot-input-fr" class="chatbot-input" placeholder="">
@@ -684,7 +671,7 @@
                 mapDescription: "Das einzigartige Gotour-Erlebnis: auf Ihre Weise, in Ihrem Tempo.",
                 legendToggle: "Kartenlegende",
                 legendGastro: "Gastronomie- und Nachtlebenführer",
-                legendAudioguide: "Audioguide",
+                legendAudioguia: "Audioguide",
                 fullscreenButton: "Vollbild",
                 chatbotHeaderText: "Hilfe-Chatbot",
                 chatbotInputPlaceholder: "Geben Sie Ihre Nachricht ein...",
@@ -709,7 +696,7 @@
                 mapDescription: "L'esperienza Gotour unica: a modo tuo, al tuo ritmo.",
                 legendToggle: "Legenda della Mappa",
                 legendGastro: "Guida gastronomica e vita notturna",
-                legendAudioguida: "Audioguida",
+                legendAudioguia: "Audioguida",
                 fullscreenButton: "Schermo intero",
                 chatbotHeaderText: "Chatbot di aiuto",
                 chatbotInputPlaceholder: "Scrivi il tuo messaggio...",
@@ -937,7 +924,7 @@
                 chatbotHeaderTextEn.textContent = t.chatbotHeaderText;
                 chatbotInputEn.placeholder = t.chatbotInputPlaceholder;
                 chatbotSendEn.textContent = "Send"; // Cambiado a "Send" para inglés
-            } else if (lang === 'fr') { // Actualizar para francés
+            } else if (lang === 'fr') {
                 document.getElementById('map-title-fr').textContent = t.mapTitle;
                 document.getElementById('map-description-fr').textContent = t.mapDescription;
                 document.getElementById('legend-gastro-fr').textContent = t.legendGastro;
@@ -953,22 +940,20 @@
         // Función para mostrar la sección del mapa correcta y ocultar las otras
         function showMapSection(lang) {
             codeEntrySection.classList.add('hidden');
-            // Ocultar todas las secciones de mapa
-            esMapSection.classList.remove('flex');
+            esMapSection.classList.remove('flex'); // Asegurarse de quitar flex para ocultar correctamente
             esMapSection.classList.add('hidden');
             enMapSection.classList.remove('flex');
             enMapSection.classList.add('hidden');
-            frMapSection.classList.remove('flex');
+            frMapSection.classList.remove('flex'); // Ocultar también la sección de francés
             frMapSection.classList.add('hidden');
 
-            // Mostrar solo la sección del idioma seleccionado
             if (lang === 'es') {
                 esMapSection.classList.remove('hidden');
                 esMapSection.classList.add('flex');
             } else if (lang === 'en') {
                 enMapSection.classList.remove('hidden');
                 enMapSection.classList.add('flex');
-            } else if (lang === 'fr') {
+            } else if (lang === 'fr') { // Mostrar la sección de francés
                 frMapSection.classList.remove('hidden');
                 frMapSection.classList.add('flex');
             }
@@ -1030,7 +1015,7 @@
         const codeForm = document.getElementById('code-form');
 
         // IMPORTANTE: Esta es la URL de tu Google App Script que maneja el doPost
-        const APP_SCRIPT_VALIDATION_URL = 'https://script.google.com/macros/s/AKfycbzUyJfTItPTqhueAFuK3ltfbuYK4hSE8nXO5Hv6EkfiMajmLSSv0HuUrMadW5-diBabA/exec'; // Asegúrate de que esta URL sea correcta
+        const APP_SCRIPT_VALIDATION_URL = 'https://script.google.com/macros/s/AKfycbzUyJfJtItPTqhueAFuK3ltfbuYK4hSE8nXO5Hv6EkfiMajmLSSv0HuUrMadW5-diBabA/exec';
 
         codeForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -1101,21 +1086,6 @@
         });
 
         // --- Lógica del mapa y pantalla completa ---
-        // Función para detectar iOS
-        function isIOS() {
-            return [
-                    'iPad Simulator',
-                    'iPhone Simulator',
-                    'iPod Simulator',
-                    'iPad',
-                    'iPhone',
-                    'iPod'
-                ].includes(navigator.platform)
-                // iPad on iOS 13+ detection
-                || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
-                ;
-        }
-
         function requestFullscreen(element) {
             if (element.requestFullscreen) {
                 element.requestFullscreen();
@@ -1129,27 +1099,15 @@
         }
 
         fullscreenEsMapButton.addEventListener('click', () => {
-            if (isIOS()) {
-                window.open(esMapIframe.src, '_blank'); // Abre en una nueva pestaña
-            } else {
-                requestFullscreen(esMapIframe); // Comportamiento actual para otros dispositivos
-            }
+            requestFullscreen(esMapIframe);
         });
 
         fullscreenEnMapButton.addEventListener('click', () => {
-            if (isIOS()) {
-                window.open(enMapIframe.src, '_blank');
-            } else {
-                requestFullscreen(enMapIframe);
-            }
+            requestFullscreen(enMapIframe);
         });
 
         fullscreenFrMapButton.addEventListener('click', () => { // NUEVO para francés
-            if (isIOS()) {
-                window.open(frMapIframe.src, '_blank');
-            } else {
-                requestFullscreen(frMapIframe);
-            }
+            requestFullscreen(frMapIframe);
         });
 
         // --- Lógica de Leyenda ---
@@ -1307,6 +1265,11 @@
             }
             updateContent(currentLang);
         });
+
+    </script>
+</body>
+</html>
+
 
     </script>
 </body>
